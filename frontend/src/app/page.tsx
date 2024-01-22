@@ -1,8 +1,14 @@
-import { Button, Container } from "@mui/material";
+"use client";
+
+import { LoginCard } from "@/components/loginSignup/LoginCard";
+import { SignUpCard } from "@/components/loginSignup/SignUpCard";
+import { Container } from "@mui/material";
+
 export default function Home() {
   return (
-    <Container sx={{ width: "full", backgroundColor: "white" }}>
-      <Button variant="outlined"></Button>
+    <Container>
+      <LoginCard />
+      <SignUpCard />
     </Container>
   );
 }
