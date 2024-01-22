@@ -1,11 +1,21 @@
 "use client";
-import { Button, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { CustomInput } from "../customInput/CustomInput";
+import { InputButton } from "../customInput/InputButton";
 
 export const LoginCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isChecked, setIsCheched] = useState(false);
+
+  const changeHandler = () => {
+    email !== "" && password !== "" ? setIsCheched(true) : setIsCheched(false);
+  };
+
+  useEffect(() => {
+    changeHandler();
+  }, [password, email]);
 
   return (
     <Stack
@@ -39,9 +49,7 @@ export const LoginCard = () => {
         <Typography sx={{ alignSelf: "end" }}>Нууц үг сэргээх</Typography>
       </Stack>
       <Stack width={"full"} gap={4}>
-        <Button sx={{ color: "#1C20243D", bgcolor: "#EEEFF2", text: "16px" }}>
-          Нэвтрэх
-        </Button>
+        <InputButton isChecked={isChecked} text="Нэвтрэх" />
         <Typography
           fontSize={14}
           width={"full"}
@@ -51,9 +59,7 @@ export const LoginCard = () => {
         >
           Эсвэл
         </Typography>
-        <Button sx={{ color: "#272727", border: "1px solid #18BA51" }}>
-          Бүртгүүлэх
-        </Button>
+        <InputButton isChecked={false} text="Бүртгүүлэх" border={true} />
       </Stack>
     </Stack>
   );

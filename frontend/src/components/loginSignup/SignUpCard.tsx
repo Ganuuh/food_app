@@ -1,8 +1,9 @@
 "use client";
-import { Stack, Typography } from "@mui/material";
+import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { CustomInput } from "../customInput/CustomInput";
 import { useState } from "react";
-import { CheckBox, Cloud } from "@mui/icons-material";
+import { CloudDoneSharp, CloudOutlined } from "@mui/icons-material";
+import { InputButton } from "../customInput/InputButton";
 
 export const SignUpCard = () => {
   const [name, setName] = useState("");
@@ -10,8 +11,9 @@ export const SignUpCard = () => {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [rePass, setRePass] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
   return (
-    <Stack width={400} gap={6} sx={{ padding: 4 }}>
+    <Stack width={400} height={"fit"} gap={6} sx={{ padding: 4 }}>
       <Typography fontSize={"28px"} fontWeight={700} alignSelf={"center"}>
         Бүртгүүлэх
       </Typography>
@@ -25,14 +27,14 @@ export const SignUpCard = () => {
         />
         <CustomInput
           label="И-мэйл"
-          placeholder="eaxmple@pinecone.mn"
+          placeholder="example@pinecone.mn"
           value={email}
           setValue={setEmail}
           type="text"
         />
         <CustomInput
           label="Хаяг"
-          placeholder="СБД 1-р хороо, Гурвал гол оффис"
+          placeholder="СБД 1-р хороо, Гурван гол оффис"
           value={address}
           setValue={setAddress}
           type="text"
@@ -53,12 +55,19 @@ export const SignUpCard = () => {
         />
       </Stack>
       <Stack gap={4}>
-        <Stack>
-          <Stack>
-            <Cloud sx={{ color: "#fff", border: "2px solid black" }} />
-          </Stack>
-          <Typography fontSize={14}>Үйлчилгээний нөхцөо зөвшөөрөх</Typography>
+        <Stack flexDirection={"row"} alignItems={"center"} gap={2}>
+          <IconButton
+            onClick={() => {
+              setIsChecked((prev) => !prev);
+            }}
+          >
+            {isChecked ? <CloudDoneSharp /> : <CloudOutlined />}
+          </IconButton>
+          <Typography fontSize={14} color={isChecked ? "green" : "black"}>
+            Үйлчилгээний нөхцөл зөвшөөрөх
+          </Typography>
         </Stack>
+        <InputButton text="Бүртгүүлэх" isChecked={isChecked} />
       </Stack>
     </Stack>
   );
