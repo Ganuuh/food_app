@@ -23,7 +23,6 @@ export const LoginCard = () => {
         padding: 4,
         bgcolor: "#fff",
         borderRadius: "16px",
-        border: "1px solid green",
       }}
       gap={6}
       width={400}
