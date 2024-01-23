@@ -10,7 +10,7 @@ import { Stack } from "@mui/material";
 export default function Home() {
   return (
     <Stack width={"100vw"} height={"100vw"} alignItems={"center"}>
-      <Header />
+      {/* <Header /> */}
       <Stack width={"full"} height={"48px"}></Stack>
       <Stack width={"full"} padding={"40px 20px"}>
         <LoginCard />
