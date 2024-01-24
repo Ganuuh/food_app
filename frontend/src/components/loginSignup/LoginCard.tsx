@@ -2,10 +2,26 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { CustomInput } from "../customInput/CustomInput";
+import { toast } from "react-toastify";
+import { api } from "@/common";
 
 export const LoginCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const logIn = async () => {
+    try {
+      const res = await api.post("/logIn", { email, password });
+
+      const { token } = res.data;
+
+      console.log(token);
+
+      toast.success("User logged in");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <Stack
@@ -55,7 +71,7 @@ export const LoginCard = () => {
         >
           Эсвэл
         </Typography>
-        <Button variant="outlined" fullWidth>
+        <Button variant="outlined" fullWidth onClick={logIn}>
           Бүртгүүлэх
         </Button>
       </Stack>

@@ -3,7 +3,9 @@ import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { CustomInput } from "../customInput/CustomInput";
 import { useState } from "react";
 import { CloudDoneSharp, CloudOutlined } from "@mui/icons-material";
-import { InputButton } from "../customInput/InputButton";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { api } from "@/common";
 
 export const SignUpCard = () => {
   const [name, setName] = useState("");
@@ -11,7 +13,64 @@ export const SignUpCard = () => {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [rePass, setRePass] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
+  const [terms, setTerms] = useState(false);
+  const clickHandler = () => {
+    const includes =
+      email.includes("@gmail.com") || email.includes("@yahoo.com");
+    const isNameValid = name.length > 4;
+
+    !includes
+      ? toast.warning("Not Valid Email")
+      : !isNameValid
+      ? toast.warning("Name must be 5 charachters long")
+      : isPasswordValid();
+  };
+  const isPasswordValid = () => {
+    if (password == "") {
+      toast.warning("Password must not be empty");
+      return;
+    }
+    if (password.length < 10) {
+      toast.warning("Password must contain above 10 letters");
+      return;
+    }
+    if (!password.match(/[a-z]/)) {
+      toast.warning("Password must contain lower case letter");
+      return;
+    }
+    if (!password.match(/[A-Z]/)) {
+      toast.warning("Password must contain upper case letter");
+      return;
+    }
+    if (!password.match(/\d+/)) {
+      toast.warning("Password must contain atleast one number");
+      return;
+    }
+    if (!password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) {
+      toast.warning("Password must contain special characters");
+      return;
+    }
+    if (password !== rePass) {
+      toast.warning("Passwords must be same");
+      return;
+    }
+    signUp();
+  };
+
+  const signUp = async () => {
+    try {
+      const res = await api.post("/signUp", { name, email, password, address });
+
+      const { token } = res.data;
+
+      localStorage.setItem("token", token);
+
+      toast.success("User created successfully");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <Stack width={400} height={"fit"} gap={6} sx={{ padding: 4 }}>
       <Typography fontSize={"28px"} fontWeight={700} alignSelf={"center"}>
@@ -58,16 +117,24 @@ export const SignUpCard = () => {
         <Stack flexDirection={"row"} alignItems={"center"} gap={2}>
           <IconButton
             onClick={() => {
-              setIsChecked((prev) => !prev);
+              setTerms((prev) => !prev);
             }}
           >
-            {isChecked ? <CloudDoneSharp /> : <CloudOutlined />}
+            {terms ? <CloudDoneSharp /> : <CloudOutlined />}
           </IconButton>
-          <Typography fontSize={14} color={isChecked ? "green" : "black"}>
+          <Typography fontSize={14} color={terms ? "green" : "black"}>
             Үйлчилгээний нөхцөл зөвшөөрөх
           </Typography>
         </Stack>
-        <InputButton text="Бүртгүүлэх" isChecked={isChecked} />
+        <Button
+          disabled={
+            !email || !password || !address || !rePass || !name || !terms
+          }
+          variant="contained"
+          onClick={clickHandler}
+        >
+          Бүртгүүлэх
+        </Button>
       </Stack>
     </Stack>
   );
