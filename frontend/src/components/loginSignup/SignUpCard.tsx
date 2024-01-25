@@ -59,7 +59,12 @@ export const SignUpCard = () => {
 
   const signUp = async () => {
     try {
-      const res = await api.post("/signUp", { name, email, password, address });
+      const res = await api.post("/signUp", {
+        name,
+        email,
+        password,
+        address,
+      });
 
       const { token } = res.data;
 

@@ -15,11 +15,11 @@ export const LoginCard = () => {
 
       const { token } = res.data;
 
-      console.log(token);
+      localStorage.setItem("token", token);
 
       toast.success("User logged in");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.warn(error.response.data.message);
     }
   };
 
@@ -59,6 +59,9 @@ export const LoginCard = () => {
           variant="contained"
           disabled={!email || !password}
           sx={{ color: "primary.contrastText" }}
+          onClick={() => {
+            logIn();
+          }}
         >
           Нэвтрэх
         </Button>
@@ -71,7 +74,7 @@ export const LoginCard = () => {
         >
           Эсвэл
         </Typography>
-        <Button variant="outlined" fullWidth onClick={logIn}>
+        <Button variant="outlined" fullWidth>
           Бүртгүүлэх
         </Button>
       </Stack>
