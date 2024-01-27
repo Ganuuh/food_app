@@ -1,9 +1,13 @@
+"use client";
+import { useAuth } from "@/providers/authProvider";
+import { useLink } from "@/providers/linkProvider";
 import {
   PersonOutlined,
   Search,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
 import {
+  Button,
   IconButton,
   InputAdornment,
   Stack,
@@ -15,6 +19,10 @@ import { useState } from "react";
 
 export const Header = () => {
   const [searchValue, setSearchValue] = useState("");
+
+  const { isLoggedIn } = useAuth();
+  const { myLink } = useLink();
+
   return (
     <Stack
       sx={{
@@ -27,7 +35,6 @@ export const Header = () => {
         justifyContent: "center",
         zIndex: "10",
         backgroundColor: "white",
-        borderBottom: "1px solid green",
       }}
     >
       <Stack
@@ -44,15 +51,33 @@ export const Header = () => {
           alignItems={"center"}
         >
           <Image src="/Logo.png" alt={""} width={30} height={30} />
-          <Typography fontSize={14} fontWeight={700}>
+          <Button
+            sx={{
+              fontSize: 14,
+              fontWeight: 700,
+              color: myLink.includes("home") ? "green" : "black",
+            }}
+          >
             НҮҮР
-          </Typography>
-          <Typography fontSize={14} fontWeight={700}>
+          </Button>
+          <Button
+            sx={{
+              fontSize: 14,
+              fontWeight: 700,
+              color: myLink.includes("menu") ? "green" : "black",
+            }}
+          >
             ХООЛНЫ ЦЭС
-          </Typography>
-          <Typography fontSize={14} fontWeight={700}>
+          </Button>
+          <Button
+            sx={{
+              fontSize: 14,
+              fontWeight: 700,
+              color: myLink.includes("delivery") ? "green" : "black",
+            }}
+          >
             ХҮРГЭЛТИЙН БҮС
-          </Typography>
+          </Button>
         </Stack>
         <Stack flexDirection={"row"} alignItems={"center"} gap={3}>
           <TextField

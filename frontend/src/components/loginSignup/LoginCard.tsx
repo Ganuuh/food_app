@@ -1,13 +1,21 @@
 "use client";
 import { Button, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomInput } from "../customInput/CustomInput";
 import { toast } from "react-toastify";
 import { api } from "@/common";
+import { useRouter } from "next/navigation";
 
 export const LoginCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //     router.push("/home");
+  //   }
+  // });
 
   const logIn = async () => {
     try {
@@ -18,6 +26,8 @@ export const LoginCard = () => {
       localStorage.setItem("token", token);
 
       toast.success("User logged in");
+
+      router.push("/home");
     } catch (error) {
       toast.warn(error.response.data.message);
     }

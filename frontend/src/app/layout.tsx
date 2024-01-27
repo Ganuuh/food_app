@@ -6,16 +6,19 @@ import { PropsWithChildren } from "react";
 import { theme } from "@/theme/index";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { MainProvider } from "@/providers";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body>
         <ThemeProvider theme={theme}>
-          <Header />
           <ToastContainer />
-          {children}
-          <Footer />
+          <MainProvider>
+            <Header />
+            {children}
+            <Footer />
+          </MainProvider>
           <CssBaseline />
         </ThemeProvider>
       </body>

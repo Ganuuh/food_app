@@ -14,14 +14,14 @@ export const signUp: RequestHandler = async (req, res) => {
       });
     }
 
-    await UserModel.create({
+    const createdUser = await UserModel.create({
       name,
       email,
       password,
       address,
     });
 
-    const createdUser = await UserModel.findOne({ email: email });
+    console.log("here");
 
     const id = createdUser?._id;
 
@@ -29,6 +29,7 @@ export const signUp: RequestHandler = async (req, res) => {
 
     res.json({ token });
   } catch (error) {
+    console.log(error);
     return res.status(401).json({
       message: "Error in backend",
     });

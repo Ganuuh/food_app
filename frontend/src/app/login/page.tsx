@@ -1,10 +1,10 @@
+import { CustomContainer } from "@/components/customContainer/CustomContainer";
 import { LoginCard } from "@/components/loginSignup/LoginCard";
-import { Container } from "@mui/material";
 
 export default function Home() {
   return (
-    <Container sx={{ height: "full" }}>
+    <CustomContainer>
       <LoginCard />
-    </Container>
+    </CustomContainer>
   );
 }
