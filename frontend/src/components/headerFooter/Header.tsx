@@ -33,7 +33,7 @@ export const Header = () => {
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
-        zIndex: "10",
+        zIndex: "50",
         backgroundColor: "white",
       }}
     >
@@ -52,6 +52,8 @@ export const Header = () => {
         >
           <Image src="/Logo.png" alt={""} width={30} height={30} />
           <Button
+            disabled={!isLoggedIn}
+            onClick={() => {}}
             sx={{
               fontSize: 14,
               fontWeight: 700,
@@ -61,6 +63,7 @@ export const Header = () => {
             НҮҮР
           </Button>
           <Button
+            disabled={!isLoggedIn}
             sx={{
               fontSize: 14,
               fontWeight: 700,
@@ -70,6 +73,7 @@ export const Header = () => {
             ХООЛНЫ ЦЭС
           </Button>
           <Button
+            disabled={!isLoggedIn}
             sx={{
               fontSize: 14,
               fontWeight: 700,

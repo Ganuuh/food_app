@@ -6,6 +6,8 @@ import { CloudDoneSharp, CloudOutlined } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { api } from "@/common";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/providers/authProvider";
 
 export const SignUpCard = () => {
   const [name, setName] = useState("");
@@ -14,6 +16,9 @@ export const SignUpCard = () => {
   const [password, setPassword] = useState("");
   const [rePass, setRePass] = useState("");
   const [terms, setTerms] = useState(false);
+  const { setCheck } = useAuth();
+
+  const router = useRouter();
   const clickHandler = () => {
     const includes =
       email.includes("@gmail.com") || email.includes("@yahoo.com");
@@ -71,7 +76,11 @@ export const SignUpCard = () => {
       localStorage.setItem("token", token);
 
       toast.success("User created successfully");
-    } catch (error) {
+
+      setCheck((prev) => !prev);
+
+      router.push("/home");
+    } catch (error: any) {
       toast.error(error.response.data.message);
     }
   };

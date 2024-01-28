@@ -5,17 +5,21 @@ import { CustomInput } from "../customInput/CustomInput";
 import { toast } from "react-toastify";
 import { api } from "@/common";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/providers/authProvider";
+import { ToastBanner } from "../toastBanner/ToastBanner";
 
 export const LoginCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("token")) {
-  //     router.push("/home");
-  //   }
-  // });
+  const { isLoggedIn, isReady, setCheck, check } = useAuth();
+
+  useEffect(() => {
+    if (isLoggedIn && isReady) {
+      router.push("/home");
+    }
+  }, [isLoggedIn, isReady]);
 
   const logIn = async () => {
     try {
@@ -27,8 +31,8 @@ export const LoginCard = () => {
 
       toast.success("User logged in");
 
-      router.push("/home");
-    } catch (error) {
+      setCheck((prev) => !prev);
+    } catch (error: any) {
       toast.warn(error.response.data.message);
     }
   };
@@ -84,7 +88,13 @@ export const LoginCard = () => {
         >
           Эсвэл
         </Typography>
-        <Button variant="outlined" fullWidth>
+        <Button
+          variant="outlined"
+          fullWidth
+          onClick={() => {
+            router.push("/signup");
+          }}
+        >
           Бүртгүүлэх
         </Button>
       </Stack>

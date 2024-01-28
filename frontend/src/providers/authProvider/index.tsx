@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import { LoadingPage } from "@/components/loading";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -8,16 +9,32 @@ type AuthProviderProps = {
 
 type AuthContextValue = {
   isLoggedIn: boolean;
-  setIsloggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  isReady: boolean;
+  setCheck: React.Dispatch<React.SetStateAction<boolean>>;
+  check: boolean;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsloggedIn] = useState(false);
+  const [isReady, setReady] = useState(false);
+  const [check, setCheck] = useState(false);
+
+  useEffect(() => {
+    setReady(false);
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setIsloggedIn(true);
+    }
+
+    setReady(true);
+  }, [check]);
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsloggedIn }}>
-      {children}
+    <AuthContext.Provider value={{ isLoggedIn, isReady, setCheck, check }}>
+      {isReady ? children : <LoadingPage />}
     </AuthContext.Provider>
   );
 };
