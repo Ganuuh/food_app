@@ -1,18 +1,40 @@
 "use client";
 import { Button, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CustomInput } from "../customInput/CustomInput";
 import { toast } from "react-toastify";
 import { api } from "@/common";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/providers/authProvider";
-import { ToastBanner } from "../toastBanner/ToastBanner";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 export const LoginCard = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
 
+  const validationSchema = yup.object({
+    email: yup.string().email().required(),
+    password: yup.string().required(),
+  });
+
+  const formik = useFormik({
+    initialValues: { email: "", password: "" },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const res = await api.post("/logIn", {
+          email: values.email,
+          password: values.password,
+        });
+        const { token } = res.data;
+        localStorage.setItem("token", token);
+        toast.success("User logged in");
+        setCheck((prev) => !prev);
+      } catch (error: any) {
+        toast.warn(error.response.data.message);
+      }
+    },
+  });
   const { isLoggedIn, isReady, setCheck, check } = useAuth();
 
   useEffect(() => {
@@ -20,22 +42,6 @@ export const LoginCard = () => {
       router.push("/home");
     }
   }, [isLoggedIn, isReady]);
-
-  const logIn = async () => {
-    try {
-      const res = await api.post("/logIn", { email, password });
-
-      const { token } = res.data;
-
-      localStorage.setItem("token", token);
-
-      toast.success("User logged in");
-
-      setCheck((prev) => !prev);
-    } catch (error: any) {
-      toast.warn(error.response.data.message);
-    }
-  };
 
   return (
     <Stack
@@ -53,17 +59,25 @@ export const LoginCard = () => {
       <Stack width={"full"} gap={2}>
         <CustomInput
           label="Имэйл"
-          value={email}
-          setValue={setEmail}
+          name="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
           placeholder="Имэйл хаягаа оруулна уу"
           type="text"
         />
         <CustomInput
           label="Нууц үг"
-          value={password}
-          setValue={setPassword}
           placeholder="Нууц үг"
           type="password"
+          name="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
         />
         <Typography sx={{ alignSelf: "end" }}>Нууц үг сэргээх</Typography>
       </Stack>
@@ -71,10 +85,9 @@ export const LoginCard = () => {
         <Button
           fullWidth
           variant="contained"
-          disabled={!email || !password}
           sx={{ color: "primary.contrastText" }}
           onClick={() => {
-            logIn();
+            formik.handleSubmit();
           }}
         >
           Нэвтрэх

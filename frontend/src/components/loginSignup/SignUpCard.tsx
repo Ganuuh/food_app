@@ -2,88 +2,58 @@
 import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { CustomInput } from "../customInput/CustomInput";
 import { useState } from "react";
-import { CloudDoneSharp, CloudOutlined } from "@mui/icons-material";
+import { Bolt, CloudDoneSharp, CloudOutlined } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { api } from "@/common";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/providers/authProvider";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 export const SignUpCard = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [rePass, setRePass] = useState("");
-  const [terms, setTerms] = useState(false);
   const { setCheck } = useAuth();
+  const [terms, setTerms] = useState(false);
 
   const router = useRouter();
-  const clickHandler = () => {
-    const includes =
-      email.includes("@gmail.com") || email.includes("@yahoo.com");
-    const isNameValid = name.length > 4;
+  const validationSchema = yup.object({
+    email: yup.string().required("Please insert your email").email(),
+    password: yup.string().required("Please insert your password").min(10),
+    rePassword: yup
+      .string()
+      .required("Please confirm your password")
+      .oneOf([yup.ref("password")], "Passwords must match"),
+    address: yup.string().required("Please insert your address"),
+    name: yup.string().required("Please insert your email").min(5),
+  });
 
-    !includes
-      ? toast.warning("Not Valid Email")
-      : !isNameValid
-      ? toast.warning("Name must be 5 charachters long")
-      : isPasswordValid();
-  };
-  const isPasswordValid = () => {
-    if (password == "") {
-      toast.warning("Password must not be empty");
-      return;
-    }
-    if (password.length < 10) {
-      toast.warning("Password must contain above 10 letters");
-      return;
-    }
-    if (!password.match(/[a-z]/)) {
-      toast.warning("Password must contain lower case letter");
-      return;
-    }
-    if (!password.match(/[A-Z]/)) {
-      toast.warning("Password must contain upper case letter");
-      return;
-    }
-    if (!password.match(/\d+/)) {
-      toast.warning("Password must contain atleast one number");
-      return;
-    }
-    if (!password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) {
-      toast.warning("Password must contain special characters");
-      return;
-    }
-    if (password !== rePass) {
-      toast.warning("Passwords must be same");
-      return;
-    }
-    signUp();
-  };
-
-  const signUp = async () => {
-    try {
-      const res = await api.post("/signUp", {
-        name,
-        email,
-        password,
-        address,
-      });
-
-      const { token } = res.data;
-
-      localStorage.setItem("token", token);
-
-      toast.success("User created successfully");
-
-      setCheck((prev) => !prev);
-
-      router.push("/home");
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-    }
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      rePassword: "",
+      address: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const res = await api.post("/signUp", {
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          address: values.address,
+        });
+        const { token } = res.data;
+        localStorage.setItem("token", token);
+        toast.success("User created successfully");
+        setCheck((prev) => !prev);
+        router.push("/home");
+      } catch (error: any) {
+        toast.error(error.response.data.message);
+      }
+    },
+  });
 
   return (
     <Stack width={400} height={"fit"} gap={6} sx={{ padding: 4 }}>
@@ -93,37 +63,57 @@ export const SignUpCard = () => {
       <Stack gap={2}>
         <CustomInput
           label="Нэр"
+          name="name"
           placeholder="Энэрэл"
-          value={name}
-          setValue={setName}
+          value={formik.values.name}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
           type="text"
         />
         <CustomInput
           label="И-мэйл"
+          name="email"
           placeholder="example@pinecone.mn"
-          value={email}
-          setValue={setEmail}
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
           type="text"
         />
         <CustomInput
           label="Хаяг"
+          name="address"
           placeholder="СБД 1-р хороо, Гурван гол оффис"
-          value={address}
-          setValue={setAddress}
+          value={formik.values.address}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.address && Boolean(formik.errors.address)}
+          helperText={formik.touched.address && formik.errors.address}
           type="text"
         />
         <CustomInput
           label="Нууц үг"
           placeholder="Нууц үг"
-          value={password}
-          setValue={setPassword}
+          name="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          onBlur={formik.handleBlur}
           type="password"
         />
         <CustomInput
           label="Нууц үг давтах"
           placeholder="Нууц үг давтах"
-          value={rePass}
-          setValue={setRePass}
+          name="rePassword"
+          value={formik.values.rePassword}
+          onChange={formik.handleChange}
+          error={formik.touched.rePassword && Boolean(formik.errors.rePassword)}
+          helperText={formik.touched.rePassword && formik.errors.rePassword}
+          onBlur={formik.handleBlur}
           type="password"
         />
       </Stack>
@@ -142,10 +132,17 @@ export const SignUpCard = () => {
         </Stack>
         <Button
           disabled={
-            !email || !password || !address || !rePass || !name || !terms
+            !formik.values.email ||
+            !formik.values.password ||
+            !formik.values.name ||
+            !formik.values.rePassword ||
+            !formik.values.address ||
+            !terms
           }
           variant="contained"
-          onClick={clickHandler}
+          onClick={() => {
+            formik.handleSubmit();
+          }}
         >
           Бүртгүүлэх
         </Button>

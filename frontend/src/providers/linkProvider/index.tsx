@@ -11,7 +11,7 @@ type LinkProviderProps = {
   children: React.ReactNode;
 };
 
-const LinkContext = createContext<LinkProviderType | null>(null);
+const LinkContext = createContext<LinkProviderType>({} as LinkProviderType);
 
 export const LinkProvider = ({ children }: LinkProviderProps) => {
   const myLink = usePathname();
@@ -22,10 +22,5 @@ export const LinkProvider = ({ children }: LinkProviderProps) => {
 
 export const useLink = () => {
   const context = useContext(LinkContext);
-
-  if (!context) {
-    throw new Error("LinkContext is out of range");
-  }
-
   return context;
 };
