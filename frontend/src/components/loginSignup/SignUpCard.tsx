@@ -2,7 +2,7 @@
 import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { CustomInput } from "../customInput/CustomInput";
 import { useState } from "react";
-import { Bolt, CloudDoneSharp, CloudOutlined } from "@mui/icons-material";
+import { CloudDoneSharp, CloudOutlined } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { api } from "@/common";

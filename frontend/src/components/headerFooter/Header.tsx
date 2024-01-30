@@ -15,10 +15,12 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const Header = () => {
   const [searchValue, setSearchValue] = useState("");
+  const router = useRouter();
 
   const { isLoggedIn } = useAuth();
   const { myLink } = useLink();
@@ -52,8 +54,9 @@ export const Header = () => {
         >
           <Image src="/Logo.png" alt={""} width={30} height={30} />
           <Button
-            disabled={!isLoggedIn}
-            onClick={() => {}}
+            onClick={() => {
+              router.push("/home");
+            }}
             sx={{
               fontSize: 14,
               fontWeight: 700,
@@ -63,7 +66,9 @@ export const Header = () => {
             НҮҮР
           </Button>
           <Button
-            disabled={!isLoggedIn}
+            onClick={() => {
+              router.push("/menu");
+            }}
             sx={{
               fontSize: 14,
               fontWeight: 700,
@@ -73,7 +78,9 @@ export const Header = () => {
             ХООЛНЫ ЦЭС
           </Button>
           <Button
-            disabled={!isLoggedIn}
+            onClick={() => {
+              router.push("/delivery");
+            }}
             sx={{
               fontSize: 14,
               fontWeight: 700,

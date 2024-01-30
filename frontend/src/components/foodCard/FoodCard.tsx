@@ -23,7 +23,7 @@ export const FoodCard = (props: FoodProps) => {
     <Stack
       alignItems={"center"}
       gap={"14px"}
-      width={282}
+      width={"full"}
       //   border={"1px solid green"}
     >
       <Stack
@@ -40,6 +40,9 @@ export const FoodCard = (props: FoodProps) => {
             borderRadius={10}
             marginTop={"10px"}
             marginRight={"10px"}
+            fontWeight={600}
+            fontSize={18}
+            border={"1px solid white"}
             sx={{
               zIndex: 20,
               backgroundColor: "green",
