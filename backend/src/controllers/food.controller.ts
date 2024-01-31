@@ -33,3 +33,23 @@ export const getFoods: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const getFoodById: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    if (id === "") {
+      return;
+    }
+
+    const food = await FoodModel.findOne({ _id: id });
+
+    res.json({
+      food,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: "Error to get food by id",
+    });
+  }
+};

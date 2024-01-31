@@ -23,7 +23,7 @@ export default function Page() {
   };
   useEffect(() => {
     getAllFoods();
-  });
+  }, []);
   const router = useRouter();
   const { isLoggedIn, isReady } = useAuth();
 

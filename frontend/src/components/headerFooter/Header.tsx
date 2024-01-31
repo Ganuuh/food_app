@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HeaderLoginCard } from "./HeaderLoginCard";
 import { DrawBar } from "./HeaderLoginBrawBar";
+import { OneFoodBanner } from "./OneFoodBanner";
 
 export const Header = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -26,7 +27,7 @@ export const Header = () => {
   const [login, setLogin] = useState(false);
   const [drawBar, setDrawBar] = useState(false);
   const { isLoggedIn } = useAuth();
-  const { myLink } = useLink();
+  const { myLink, foodModal } = useLink();
 
   return (
     <Stack
@@ -49,6 +50,8 @@ export const Header = () => {
         setShown={setDrawBar}
         isShown={drawBar}
       />
+
+      {foodModal && <OneFoodBanner />}
       <Stack
         maxWidth={1440}
         flexDirection={"row"}

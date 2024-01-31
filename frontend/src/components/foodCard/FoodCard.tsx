@@ -1,4 +1,5 @@
 "use client";
+import { useLink } from "@/providers/linkProvider";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -8,10 +9,12 @@ type FoodProps = {
   price: number;
   salePrice?: number;
   picture: string;
+  id: string;
 };
 
 export const FoodCard = (props: FoodProps) => {
-  const { name, price, salePrice = 0, picture } = props;
+  const { name, price, salePrice = 0, picture, id } = props;
+  const { setId, setModal, setPercentageModal } = useLink();
 
   const [percentage, setPercentage] = useState(0);
   useEffect(() => {
@@ -20,7 +23,16 @@ export const FoodCard = (props: FoodProps) => {
     }
   }, [salePrice]);
   return (
-    <Stack alignItems={"center"} gap={"14px"} width={"full"}>
+    <Stack
+      alignItems={"center"}
+      gap={"14px"}
+      width={"full"}
+      onClick={() => {
+        setPercentageModal(percentage);
+        setId(id);
+        setModal(true);
+      }}
+    >
       <Stack
         width={"100%"}
         alignItems={"end"}

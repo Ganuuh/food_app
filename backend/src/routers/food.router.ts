@@ -1,8 +1,11 @@
 import { Router } from "express";
-import { addFood, getFoods } from "../controllers";
+import { addFood, getFoodById, getFoods } from "../controllers";
 
 const foodRouter = Router();
 
-foodRouter.post("/add", addFood).get("/getAll", getFoods);
+foodRouter
+  .post("/add", addFood)
+  .get("/getAll", getFoods)
+  .post("/getById", getFoodById);
 
 export default foodRouter;

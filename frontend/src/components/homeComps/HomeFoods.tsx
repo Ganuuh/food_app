@@ -10,6 +10,7 @@ type HomeFoodsProps = {
     ingredient?: string;
     price: number;
     newPrice?: number;
+    _id: string;
   }[];
   title: string;
 };
@@ -28,9 +29,10 @@ export const HomeFoods = (props: HomeFoodsProps) => {
           <Typography>Baijeee sda</Typography>
         ) : (
           foods.map((food) => {
-            const { name, price, newPrice, image } = food;
+            const { name, price, newPrice, image, _id } = food;
             return (
               <FoodCard
+                id={_id}
                 name={name}
                 price={price}
                 salePrice={newPrice}
