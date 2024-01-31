@@ -1,4 +1,5 @@
 "use client";
+import { api } from "@/common";
 import { HomeCards } from "@/components/homeComps/HomeCards";
 import { HomeFoods } from "@/components/homeComps/HomeFoods";
 import { useAuth } from "@/providers/authProvider";
@@ -9,12 +10,20 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Page() {
-  const [foods, setFoods] = useState([
-    { name: "Breakfast", price: 20000, salePrice: 18000, picture: "food.png" },
-    { name: "Breakfast", price: 18000, picture: "food.png" },
-    { name: "Breakfast", price: 16000, salePrice: 10000, picture: "food.png" },
-    { name: "Breakfast", price: 18000, picture: "food.png" },
-  ]);
+  const [foods, setFoods] = useState([]);
+
+  const getAllFoods = async () => {
+    try {
+      const { data } = await api.get("/foods/getAll");
+
+      setFoods(data);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  };
+  useEffect(() => {
+    getAllFoods();
+  });
   const router = useRouter();
   const { isLoggedIn, isReady } = useAuth();
 
@@ -90,8 +99,11 @@ export default function Page() {
       <Stack width={"full"} alignItems={"center"}>
         <HomeCards />
       </Stack>
-      <Stack width={"full"} alignItems={"center"}>
-        <HomeFoods foods={foods} />
+      <Stack width={"full"} alignItems={"center"} gap={10}>
+        <HomeFoods foods={foods} title=" Хямдралтай" />
+        {/* <HomeFoods foods={foods} title=" Үндсэн хоол" />
+        <HomeFoods foods={foods} title=" Салад ба зууш" />
+        <HomeFoods foods={foods} title=" Амттан" /> */}
       </Stack>
     </Stack>
   );

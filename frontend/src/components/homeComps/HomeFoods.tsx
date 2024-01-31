@@ -1,30 +1,44 @@
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { HomeFoodHeader } from "./HomeFoodHeader";
-import { MenuFoodsProps } from "../menuComps/MenuFoods";
+
 import { FoodCard } from "../foodCard/FoodCard";
 
-export const HomeFoods = (props: MenuFoodsProps) => {
-  const { foods } = props;
+type HomeFoodsProps = {
+  foods: {
+    name: string;
+    image: string;
+    ingredient?: string;
+    price: number;
+    newPrice?: number;
+  }[];
+  title: string;
+};
+export const HomeFoods = (props: HomeFoodsProps) => {
+  const { foods, title } = props;
   return (
     <Stack width={"80%"} maxWidth={1440} gap={5}>
-      <HomeFoodHeader title=" Хямдралтай" />
+      <HomeFoodHeader title={title} />
       <Stack
         width={"full"}
         flexDirection={"row"}
         gap={3}
         sx={{ display: "grid", gridTemplateColumns: "repeat(4 ,1fr)" }}
       >
-        {foods.map((food) => {
-          const { name, price, salePrice, picture } = food;
-          return (
-            <FoodCard
-              name={name}
-              price={price}
-              salePrice={salePrice}
-              picture={picture}
-            />
-          );
-        })}
+        {foods.length === 0 ? (
+          <Typography>Baijeee sda</Typography>
+        ) : (
+          foods.map((food) => {
+            const { name, price, newPrice, image } = food;
+            return (
+              <FoodCard
+                name={name}
+                price={price}
+                salePrice={newPrice}
+                picture={image}
+              />
+            );
+          })
+        )}
       </Stack>
     </Stack>
   );

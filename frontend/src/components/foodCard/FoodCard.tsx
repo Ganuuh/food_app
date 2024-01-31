@@ -20,20 +20,15 @@ export const FoodCard = (props: FoodProps) => {
     }
   }, [salePrice]);
   return (
-    <Stack
-      alignItems={"center"}
-      gap={"14px"}
-      width={"full"}
-      //   border={"1px solid green"}
-    >
+    <Stack alignItems={"center"} gap={"14px"} width={"full"}>
       <Stack
-        height={186}
         width={"100%"}
         alignItems={"end"}
         justifyContent={"start"}
         borderRadius={"16px"}
         overflow={"hidden"}
         position={"relative"}
+        sx={{ aspectRatio: "1/0.6" }}
       >
         {percentage === 0 ? null : (
           <Typography
@@ -56,9 +51,9 @@ export const FoodCard = (props: FoodProps) => {
             {percentage}%
           </Typography>
         )}
-        <Image src={`/${picture}`} alt="" height={186} width={282} />
+        <Image src={`/${picture}`} alt="" fill />
       </Stack>
-      <Stack width={"100%"} alignItems={"flex-start"}>
+      <Stack width={"100%"}>
         <Typography fontSize={20} fontWeight={600}>
           {name}
         </Typography>

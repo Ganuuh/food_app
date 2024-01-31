@@ -1,6 +1,6 @@
 "use client";
 import { Button, Stack, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { CustomInput } from "../customInput/CustomInput";
 import { toast } from "react-toastify";
 import { api } from "@/common";
@@ -9,7 +9,15 @@ import { useAuth } from "@/providers/authProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-export const LoginCard = () => {
+type LogInCardProps = {
+  setShown?: Dispatch<SetStateAction<boolean>>;
+};
+export const LoginCard = (props: LogInCardProps) => {
+  const {
+    setShown = (p) => {
+      return p;
+    },
+  } = props;
   const router = useRouter();
 
   const validationSchema = yup.object({
@@ -52,6 +60,7 @@ export const LoginCard = () => {
       }}
       gap={6}
       width={400}
+      zIndex={10}
     >
       <Typography fontWeight={600} fontSize={28} alignSelf={"center"}>
         Нэвтрэх
@@ -105,6 +114,7 @@ export const LoginCard = () => {
           variant="outlined"
           fullWidth
           onClick={() => {
+            setShown(false);
             router.push("/signup");
           }}
         >

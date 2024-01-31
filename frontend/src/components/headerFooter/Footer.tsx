@@ -8,6 +8,7 @@ export const Footer = () => {
   return (
     <Stack
       width={"100vw"}
+      mt={10}
       bgcolor={"#18BA51"}
       position={"relative"}
       alignItems={"center"}

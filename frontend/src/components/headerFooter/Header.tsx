@@ -17,11 +17,14 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { HeaderLoginCard } from "./HeaderLoginCard";
+import { DrawBar } from "./HeaderLoginBrawBar";
 
 export const Header = () => {
   const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
-
+  const [login, setLogin] = useState(false);
+  const [drawBar, setDrawBar] = useState(false);
   const { isLoggedIn } = useAuth();
   const { myLink } = useLink();
 
@@ -39,7 +42,15 @@ export const Header = () => {
         backgroundColor: "white",
       }}
     >
+      <HeaderLoginCard setShown={setLogin} shown={login} />
+      <DrawBar
+        id="xasaxs"
+        quantity={1}
+        setShown={setDrawBar}
+        isShown={drawBar}
+      />
       <Stack
+        maxWidth={1440}
         flexDirection={"row"}
         justifyContent={"space-between"}
         alignItems={"center"}
@@ -111,11 +122,25 @@ export const Header = () => {
               ),
             }}
           />
-          <Stack flexDirection={"row"} gap={1}>
+          <Stack
+            flexDirection={"row"}
+            gap={1}
+            onClick={() => {
+              setDrawBar(true);
+            }}
+            sx={{ cursor: "pointer" }}
+          >
             <ShoppingCartOutlined />
             <Typography>Сагс</Typography>
           </Stack>
-          <Stack flexDirection={"row"} gap={1}>
+          <Stack
+            sx={{ cursor: "pointer" }}
+            flexDirection={"row"}
+            gap={1}
+            onClick={() => {
+              setLogin(true);
+            }}
+          >
             <PersonOutlined />
             <Typography>Нэвтрэх</Typography>
           </Stack>

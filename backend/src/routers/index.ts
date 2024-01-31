@@ -1,5 +1,2 @@
-import authRouter from "./auth.router";
-
-export default {
-  authRouter,
-};
+export * from "./auth.router";
+export * from "./food.router";

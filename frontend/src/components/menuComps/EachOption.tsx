@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 
 type EachOptionProps = {
@@ -9,22 +9,21 @@ type EachOptionProps = {
 export const EachOption = (props: EachOptionProps) => {
   const { setSelected, text, state } = props;
   return (
-    <Button
+    <Typography
       onClick={() => {
         setSelected(text);
       }}
-      variant="contained"
-      fullWidth
-      disableElevation
       sx={{
         borderRadius: "16px",
         fontWeight: 600,
-        backgroundColor: text !== state ? "white" : "primary",
+        padding: "8px 0",
+        textAlign: "center",
+        backgroundColor: text !== state ? "white" : "primary.main",
         color: text !== state ? "black" : "white",
         border: "1px solid #D6D8DB",
       }}
     >
       {text}
-    </Button>
+    </Typography>
   );
 };
