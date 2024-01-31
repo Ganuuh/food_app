@@ -8,6 +8,7 @@ export const OneFoodBanner = () => {
   return (
     <Collapse in={true}>
       <Stack
+        zIndex={50}
         position={"fixed"}
         top={0}
         left={0}

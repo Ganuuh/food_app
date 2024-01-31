@@ -2,12 +2,21 @@ import { BannerFood, useLink } from "@/providers/linkProvider";
 import { Add, Close, Remove } from "@mui/icons-material";
 import { Button, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const FoodBanner = (props: BannerFood) => {
   const [quantity, setQuantity] = useState(1);
-  const { name, ingredient, newPrice = 0, image, price } = props;
+  const { name, ingredient, newPrice = 0, image } = props;
   const { setModal, percentageModal } = useLink();
+
+  const clickHandler = () => {
+    if (quantity === 1) {
+      return toast.warn("захиалгын доод хязгаар нь нэг");
+    }
+
+    setQuantity(quantity - 1);
+  };
 
   return (
     <Stack
@@ -83,13 +92,25 @@ export const FoodBanner = (props: BannerFood) => {
           justifyContent={"space-between"}
           alignItems={"center"}
         >
-          <Stack padding={1.5} borderRadius={1.4} bgcolor={"primary.main"}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              clickHandler();
+            }}
+          >
             <Remove />
-          </Stack>
-          <Typography>{quantity}</Typography>
-          <Stack padding={1.5} borderRadius={1.4} bgcolor={"primary.main"}>
+          </Button>
+          <Typography fontSize={16} fontWeight={600}>
+            {quantity}
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setQuantity(quantity + 1);
+            }}
+          >
             <Add />
-          </Stack>
+          </Button>
         </Stack>
         <Button variant="contained" color="primary" fullWidth>
           Сагслах

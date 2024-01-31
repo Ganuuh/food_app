@@ -11,6 +11,7 @@ export const HeaderLoginCard = (props: HeaderLoginCardProps) => {
   return (
     <Collapse in={shown}>
       <Stack
+        zIndex={50}
         position={"fixed"}
         display={shown ? "flex" : "none"}
         top={0}

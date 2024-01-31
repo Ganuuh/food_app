@@ -2,7 +2,6 @@ import { Button, Slide, Stack, Typography } from "@mui/material";
 import { DrawBarFood } from "./DrawBarFood";
 import { KeyboardArrowLeft } from "@mui/icons-material";
 import { Dispatch, SetStateAction } from "react";
-import { InputButton } from "../customInput/InputButton";
 
 type DrawBarProps = {
   id: string;
@@ -15,6 +14,7 @@ export const DrawBar = (props: DrawBarProps) => {
   const { isShown, setShown } = props;
   return (
     <Stack
+      zIndex={50}
       position={"fixed"}
       display={isShown ? "flex" : "none"}
       border={"1px solid black"}
