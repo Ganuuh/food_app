@@ -21,8 +21,6 @@ export type BannerFood = {
   _id?: string;
 };
 
-type OrderList = { id: string; quantity: number };
-
 type LinkProviderType = {
   myLink: string;
   id: string;
@@ -33,10 +31,6 @@ type LinkProviderType = {
   setModal: Dispatch<SetStateAction<boolean>>;
   percentageModal: number;
   setPercentageModal: Dispatch<SetStateAction<number>>;
-  bucketList: OrderList[] | null;
-  setBucketList: Dispatch<SetStateAction<OrderList[] | null>>;
-  bucketFoods: BannerFood[] | null;
-  setBucketFoods: Dispatch<SetStateAction<BannerFood[] | null>>;
 };
 
 type LinkProviderProps = {
@@ -50,8 +44,6 @@ export const LinkProvider = ({ children }: LinkProviderProps) => {
   const [bannerFood, setBFood] = useState<BannerFood | null>(null);
   const [foodModal, setModal] = useState(false);
   const [percentageModal, setPercentageModal] = useState(0);
-  const [bucketList, setBucketList] = useState<OrderList[] | null>(null);
-  const [bucketFoods, setBucketFoods] = useState<BannerFood[] | null>(null);
 
   const getFoodById = async (id: string) => {
     try {
@@ -73,13 +65,6 @@ export const LinkProvider = ({ children }: LinkProviderProps) => {
     id !== "" ? getFoodById(id) : null;
   }, [id]);
 
-  useEffect(() => {
-    bucketList?.forEach((each) => {
-      const food = getFoodById(each.id);
-      setBucketFoods(bucketFoods?.push(food));
-    });
-  }, [bucketList]);
-
   const myLink = usePathname();
 
   return (
@@ -94,10 +79,6 @@ export const LinkProvider = ({ children }: LinkProviderProps) => {
         setModal,
         percentageModal,
         setPercentageModal,
-        bucketList,
-        setBucketList,
-        bucketFoods,
-        setBucketFoods,
       }}
     >
       {children}
