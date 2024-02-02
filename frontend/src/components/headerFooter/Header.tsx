@@ -19,16 +19,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HeaderLoginCard } from "./HeaderLoginCard";
 import { useDraw } from "@/providers/drawBarProvider";
-
+import { ProfilePicFrame } from "../profileComps/ProfilePic";
 export const Header = () => {
   const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
   const [login, setLogin] = useState(false);
-  const { isLoggedIn, userName } = useAuth();
+  const { isLoggedIn } = useAuth();
   const { myLink } = useFModal();
   const { setDrawOpen } = useDraw();
-  console.log(isLoggedIn);
-
   return (
     <Stack
       sx={{
@@ -133,14 +131,29 @@ export const Header = () => {
           <Stack
             sx={{ cursor: "pointer" }}
             flexDirection={"row"}
+            alignItems={"center"}
             gap={1}
             onClick={() => {
-              isLoggedIn ? null : setLogin(true);
+              isLoggedIn ? router.push("/profile") : setLogin(true);
             }}
           >
-            <PersonOutlined />
+            <Stack
+              width={32}
+              height={32}
+              flexDirection={"row"}
+              alignItems={"center"}
+              borderRadius={"50%"}
+              overflow={"hidden"}
+            >
+              {isLoggedIn ? (
+                <ProfilePicFrame src="/profile.jpeg" />
+              ) : (
+                <PersonOutlined />
+              )}
+            </Stack>
+
             <Typography color={"black"}>
-              {isLoggedIn ? userName : "Нэвтрэх"}
+              {isLoggedIn ? localStorage.getItem("name") : "Нэвтрэх"}
             </Typography>
           </Stack>
         </Stack>

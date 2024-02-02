@@ -32,6 +32,7 @@ export const HomeFoods = (props: HomeFoodsProps) => {
             const { name, price, newPrice, image, _id } = food;
             return (
               <FoodCard
+                key={_id}
                 id={_id}
                 name={name}
                 price={price}

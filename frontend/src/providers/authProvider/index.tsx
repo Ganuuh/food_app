@@ -7,6 +7,7 @@ import React, {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { toast } from "react-toastify";
@@ -27,8 +28,6 @@ type SignUpType = {
 
 type AuthContextValue = {
   isLoggedIn: boolean;
-  userName: string;
-  setUserName: Dispatch<SetStateAction<string>>;
   logIn: (values: logIntype) => Promise<void>;
 };
 
@@ -36,8 +35,14 @@ const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsloggedIn] = useState(false);
-  const [userName, setUserName] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsloggedIn(true);
+    }
+  }, []);
 
   const signUp = async (values: SignUpType) => {
     try {
@@ -63,8 +68,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password: values.password,
       });
       const { token, name } = res.data;
-      setUserName(name);
+
       setIsloggedIn(true);
+      localStorage.setItem("token", token);
+      localStorage.setItem("name", name);
       toast.success("User logged in");
     } catch (error: any) {
       toast.warn(error.response.data.message);
@@ -76,8 +83,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     <AuthContext.Provider
       value={{
         isLoggedIn,
-        userName,
-        setUserName,
         logIn,
       }}
     >

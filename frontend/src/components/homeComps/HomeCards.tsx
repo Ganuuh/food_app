@@ -31,9 +31,9 @@ export const HomeCards = () => {
       gap={6}
       sx={{ display: "grid", gridTemplateColumns: "repeat(4  ,1fr)" }}
     >
-      {cardsInfo.map((info) => {
+      {cardsInfo.map((info, index) => {
         const { icon, text, desc } = info;
-        return <HomeCard icon={icon} text={text} desc={desc} />;
+        return <HomeCard key={index} icon={icon} text={text} desc={desc} />;
       })}
     </Stack>
   );

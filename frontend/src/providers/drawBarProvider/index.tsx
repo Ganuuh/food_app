@@ -25,9 +25,9 @@ export const DrawProvider = ({ children }: DrawProviderProps) => {
   const [isDrawOpen, setDrawOpen] = useState<boolean>(false);
   const [drawFoods, setDrawFoods] = useState<BannerFood[]>([]);
 
-  useEffect(() => {
-    console.log(drawFoods);
-  }, [drawFoods]);
+  // useEffect(() => {
+  //   console.log(drawFoods);
+  // }, [drawFoods]);
   return (
     <DrawContext.Provider
       value={{ isDrawOpen, setDrawOpen, drawFoods, setDrawFoods }}
