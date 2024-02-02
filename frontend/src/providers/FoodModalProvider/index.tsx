@@ -1,6 +1,7 @@
 "use client";
 
 import { api } from "@/common";
+import { FoodModal } from "@/components/modalComponents/FoodModal";
 import { usePathname } from "next/navigation";
 import React, {
   Dispatch,
@@ -19,6 +20,7 @@ export type BannerFood = {
   price: number;
   newPrice?: number;
   _id?: string;
+  __v?: number;
 };
 
 type LinkProviderType = {
@@ -39,7 +41,7 @@ type LinkProviderProps = {
 
 const LinkContext = createContext<LinkProviderType>({} as LinkProviderType);
 
-export const LinkProvider = ({ children }: LinkProviderProps) => {
+export const BannerProvider = ({ children }: LinkProviderProps) => {
   const [id, setId] = useState("");
   const [bannerFood, setBFood] = useState<BannerFood | null>(null);
   const [foodModal, setModal] = useState(false);
@@ -51,11 +53,7 @@ export const LinkProvider = ({ children }: LinkProviderProps) => {
 
       const { food } = res.data;
 
-      console.log(food);
-
       setBFood(food);
-
-      return food;
     } catch (error: any) {
       toast.error(error.response.data.message);
     }
@@ -82,11 +80,12 @@ export const LinkProvider = ({ children }: LinkProviderProps) => {
       }}
     >
       {children}
+      {foodModal ? <FoodModal /> : null}
     </LinkContext.Provider>
   );
 };
 
-export const useLink = () => {
+export const useFModal = () => {
   const context = useContext(LinkContext);
   return context;
 };

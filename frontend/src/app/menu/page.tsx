@@ -15,14 +15,7 @@ export default function Page() {
     { name: "Breakfast", price: 16000, salePrice: 10000, picture: "food.png" },
     { name: "Breakfast", price: 18000, picture: "food.png" },
   ]);
-  const router = useRouter();
-  useEffect(() => {
-    const token = !localStorage.getItem("token");
-    if (token) {
-      toast.warning("Please login");
-      router.push("/login ");
-    }
-  }, []);
+
   return (
     <Stack width={"full"} marginTop={"55px"} alignItems={"center"} gap={"54px"}>
       <MenuOption />

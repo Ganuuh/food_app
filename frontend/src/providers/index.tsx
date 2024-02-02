@@ -1,6 +1,7 @@
 import React from "react";
 import { AuthProvider } from "./authProvider";
-import { LinkProvider } from "./linkProvider";
+import { BannerProvider } from "./FoodModalProvider";
+import { DrawProvider } from "./drawBarProvider";
 
 type MainProviderProps = {
   children: React.ReactNode;
@@ -8,8 +9,10 @@ type MainProviderProps = {
 
 export const MainProvider = ({ children }: MainProviderProps) => {
   return (
-    <LinkProvider>
-      <AuthProvider>{children}</AuthProvider>
-    </LinkProvider>
+    <BannerProvider>
+      <AuthProvider>
+        <DrawProvider>{children} </DrawProvider>
+      </AuthProvider>
+    </BannerProvider>
   );
 };

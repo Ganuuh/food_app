@@ -1,9 +1,9 @@
 import { Collapse, Stack } from "@mui/material";
-import { FoodBanner } from "./FoodBanner";
-import { useLink } from "@/providers/linkProvider";
+import { FoodModalCard } from "./FoodModalCard";
+import { useFModal } from "@/providers/FoodModalProvider";
 
-export const OneFoodBanner = () => {
-  const { bannerFood, setModal } = useLink();
+export const FoodModal = () => {
+  const { bannerFood, setModal } = useFModal();
 
   return (
     <Collapse in={true}>
@@ -27,7 +27,7 @@ export const OneFoodBanner = () => {
           position={"absolute"}
         ></Stack>
 
-        {bannerFood && <FoodBanner {...bannerFood} />}
+        {bannerFood && <FoodModalCard {...bannerFood} />}
       </Stack>
     </Collapse>
   );

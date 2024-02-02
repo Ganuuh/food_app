@@ -13,6 +13,7 @@ type LogInCardProps = {
   setShown?: Dispatch<SetStateAction<boolean>>;
 };
 export const LoginCard = (props: LogInCardProps) => {
+  const { logIn } = useAuth();
   const {
     setShown = (p) => {
       return p;
@@ -28,28 +29,11 @@ export const LoginCard = (props: LogInCardProps) => {
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const res = await api.post("/logIn", {
-          email: values.email,
-          password: values.password,
-        });
-        const { token } = res.data;
-        localStorage.setItem("token", token);
-        toast.success("User logged in");
-        setCheck((prev) => !prev);
-      } catch (error: any) {
-        toast.warn(error.response.data.message);
-      }
+    onSubmit: (values) => {
+      logIn(values);
     },
   });
-  const { isLoggedIn, isReady, setCheck, check } = useAuth();
-
-  useEffect(() => {
-    if (isLoggedIn && isReady) {
-      router.push("/home");
-    }
-  }, [isLoggedIn, isReady]);
+  const { isLoggedIn } = useAuth();
 
   return (
     <Stack

@@ -1,5 +1,5 @@
 "use client";
-import { useLink } from "@/providers/linkProvider";
+import { useFModal } from "@/providers/FoodModalProvider";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -14,7 +14,7 @@ type FoodProps = {
 
 export const FoodCard = (props: FoodProps) => {
   const { name, price, salePrice = 0, picture, id } = props;
-  const { setId, setModal, setPercentageModal } = useLink();
+  const { setId, setModal, setPercentageModal } = useFModal();
 
   const [percentage, setPercentage] = useState(0);
   useEffect(() => {

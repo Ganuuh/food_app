@@ -1,5 +1,5 @@
 import { Button, Slide, Stack, Typography } from "@mui/material";
-import { DrawBarFood } from "../modalComponents/DrawBarFood";
+import { DrawBarFood } from "./DrawBarFood";
 import { KeyboardArrowLeft } from "@mui/icons-material";
 import { useDraw } from "@/providers/drawBarProvider";
 
@@ -50,7 +50,7 @@ export const DrawBar = () => {
             </Typography>
             <Stack></Stack>
           </Stack>
-          <DrawBarFood />
+          {drawFoods !== null ? <DrawBarFood {...drawFoods[0]} /> : null}
           <Stack
             boxShadow={"0px -4px 8px 0px rgba(187, 190, 205, 0.20)"}
             zIndex={10}

@@ -24,15 +24,6 @@ export default function Page() {
   useEffect(() => {
     getAllFoods();
   }, []);
-  const router = useRouter();
-  const { isLoggedIn, isReady } = useAuth();
-
-  useEffect(() => {
-    if (!isLoggedIn && isReady) {
-      toast.warn("Please login");
-      router.push("/");
-    }
-  }, [isLoggedIn, isReady]);
   return (
     <Stack marginTop={"55px"} width={"full"} gap={"122px"}>
       <Stack

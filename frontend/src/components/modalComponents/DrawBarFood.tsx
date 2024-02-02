@@ -1,8 +1,10 @@
+import { BannerFood } from "@/providers/FoodModalProvider";
 import { Add, Close, Remove } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
-export const DrawBarFood = () => {
+export const DrawBarFood = (props: BannerFood) => {
+  const {} = props;
   return (
     <Stack width={530} gap={3}>
       <Stack width={"100%"} border={"1px solid #D6D8DB"}></Stack>

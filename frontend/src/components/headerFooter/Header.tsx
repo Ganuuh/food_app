@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "@/providers/authProvider";
-import { useLink } from "@/providers/linkProvider";
+import { useFModal } from "@/providers/FoodModalProvider";
 import {
   PersonOutlined,
   Search,
@@ -18,16 +18,16 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { HeaderLoginCard } from "./HeaderLoginCard";
-import { DrawBar } from "./HeaderLoginBrawBar";
-import { OneFoodBanner } from "./OneFoodBanner";
+import { useDraw } from "@/providers/drawBarProvider";
 
 export const Header = () => {
   const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
   const [login, setLogin] = useState(false);
-  const [drawBar, setDrawBar] = useState(false);
-  const { isLoggedIn } = useAuth();
-  const { myLink, foodModal } = useLink();
+  const { isLoggedIn, userName } = useAuth();
+  const { myLink } = useFModal();
+  const { setDrawOpen } = useDraw();
+  console.log(isLoggedIn);
 
   return (
     <Stack
@@ -43,15 +43,9 @@ export const Header = () => {
         backgroundColor: "white",
       }}
     >
-      <HeaderLoginCard setShown={setLogin} shown={login} />
-      <DrawBar
-        id="xasaxs"
-        quantity={1}
-        setShown={setDrawBar}
-        isShown={drawBar}
-      />
-
-      {foodModal && <OneFoodBanner />}
+      {!isLoggedIn && login && (
+        <HeaderLoginCard setShown={setLogin} shown={login} />
+      )}
       <Stack
         maxWidth={1440}
         flexDirection={"row"}
@@ -129,7 +123,7 @@ export const Header = () => {
             flexDirection={"row"}
             gap={1}
             onClick={() => {
-              setDrawBar(true);
+              setDrawOpen(true);
             }}
             sx={{ cursor: "pointer" }}
           >
@@ -141,11 +135,13 @@ export const Header = () => {
             flexDirection={"row"}
             gap={1}
             onClick={() => {
-              setLogin(true);
+              isLoggedIn ? null : setLogin(true);
             }}
           >
             <PersonOutlined />
-            <Typography>Нэвтрэх</Typography>
+            <Typography color={"black"}>
+              {isLoggedIn ? userName : "Нэвтрэх"}
+            </Typography>
           </Stack>
         </Stack>
       </Stack>

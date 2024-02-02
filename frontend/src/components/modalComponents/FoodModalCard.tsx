@@ -1,14 +1,18 @@
-import { BannerFood, useLink } from "@/providers/linkProvider";
+import { useDraw } from "@/providers/drawBarProvider";
+import { BannerFood, useFModal } from "@/providers/FoodModalProvider";
 import { Add, Close, Remove } from "@mui/icons-material";
 import { Button, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export const FoodBanner = (props: BannerFood) => {
+export const FoodModalCard = (props: BannerFood) => {
+  console.log(props);
+
   const [quantity, setQuantity] = useState(1);
-  const { name, ingredient, newPrice = 0, image } = props;
-  const { setModal, percentageModal } = useLink();
+  const { name, ingredient, newPrice = 0, image, price } = props;
+  const { setModal, percentageModal } = useFModal();
+  const { setDrawFoods, drawFoods } = useDraw();
 
   const clickHandler = () => {
     if (quantity === 1) {
@@ -112,7 +116,14 @@ export const FoodBanner = (props: BannerFood) => {
             <Add />
           </Button>
         </Stack>
-        <Button variant="contained" color="primary" fullWidth>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => {
+            console.log(typeof price);
+          }}
+        >
           Сагслах
         </Button>
       </Stack>

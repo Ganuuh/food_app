@@ -54,9 +54,11 @@ export const logIn: RequestHandler = async (req, res) => {
 
     const id = user._id;
 
+    const name = user.name;
+
     const token = jwt.sign({ id }, "secret-key");
 
-    res.json({ token });
+    res.json({ token, name });
   } catch (error) {
     console.log(error, "Sign in error");
   }
