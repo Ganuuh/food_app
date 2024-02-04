@@ -2,14 +2,7 @@
 
 import { api } from "@/common";
 import { useRouter } from "next/navigation";
-import React, {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 type AuthProviderProps = {

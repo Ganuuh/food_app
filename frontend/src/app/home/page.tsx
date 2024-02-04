@@ -2,10 +2,8 @@
 import { api } from "@/common";
 import { HomeCards } from "@/components/homeComps/HomeCards";
 import { HomeFoods } from "@/components/homeComps/HomeFoods";
-import { useAuth } from "@/providers/authProvider";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 

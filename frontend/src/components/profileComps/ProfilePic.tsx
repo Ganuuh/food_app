@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
 import Image from "next/image";
 
-type ProfilePicProps = {
+export type ProfilePicProps = {
   src: string;
 };
 
