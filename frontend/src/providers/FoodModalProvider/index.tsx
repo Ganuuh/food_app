@@ -19,7 +19,7 @@ export type BannerFood = {
   ingredient?: string;
   price: number;
   newPrice?: number;
-  _id?: string;
+  _id: string;
   __v?: number;
 };
 

@@ -7,14 +7,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { api } from "@/common";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/providers/authProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
 export const SignUpCard = () => {
-  const { setCheck } = useAuth();
   const [terms, setTerms] = useState(false);
-
   const router = useRouter();
   const validationSchema = yup.object({
     email: yup.string().required("Please insert your email").email(),
@@ -47,7 +44,7 @@ export const SignUpCard = () => {
         const { token } = res.data;
         localStorage.setItem("token", token);
         toast.success("User created successfully");
-        setCheck((prev) => !prev);
+
         router.push("/home");
       } catch (error: any) {
         toast.error(error.response.data.message);

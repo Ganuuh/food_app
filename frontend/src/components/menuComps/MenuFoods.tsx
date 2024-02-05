@@ -1,8 +1,9 @@
 import { Stack } from "@mui/material";
 import { FoodCard } from "../foodCard/FoodCard";
+import { BannerFood } from "@/providers/FoodModalProvider";
 
 export type MenuFoodsProps = {
-  foods: { name: string; price: number; picture: string; salePrice?: number }[];
+  foods: BannerFood[];
 };
 export const MenuFoods = (props: MenuFoodsProps) => {
   const { foods } = props;
@@ -14,13 +15,15 @@ export const MenuFoods = (props: MenuFoodsProps) => {
       sx={{ display: "grid", gridTemplateColumns: "repeat(4 , 1fr)" }}
     >
       {foods.map((food) => {
-        const { name, price, salePrice, picture } = food;
+        const { name, price, newPrice, _id, image } = food;
         return (
           <FoodCard
+            key={_id}
+            id={_id}
             name={name}
             price={price}
-            picture={picture}
-            salePrice={salePrice}
+            salePrice={newPrice}
+            picture={image}
           />
         );
       })}

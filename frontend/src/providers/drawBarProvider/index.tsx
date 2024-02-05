@@ -3,7 +3,6 @@ import React, {
   SetStateAction,
   createContext,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import { BannerFood } from "../FoodModalProvider";
@@ -14,8 +13,13 @@ const DrawContext = createContext<DrawProviderValue>({} as DrawProviderValue);
 type DrawProviderValue = {
   isDrawOpen: boolean;
   setDrawOpen: Dispatch<SetStateAction<boolean>>;
-  drawFoods: BannerFood[];
-  setDrawFoods: Dispatch<SetStateAction<BannerFood[]>>;
+  drawFoods: DrawfoodsType[];
+  setDrawFoods: Dispatch<SetStateAction<DrawfoodsType[]>>;
+};
+
+export type DrawfoodsType = {
+  food: BannerFood;
+  quantity: number;
 };
 
 type DrawProviderProps = {
@@ -23,11 +27,8 @@ type DrawProviderProps = {
 };
 export const DrawProvider = ({ children }: DrawProviderProps) => {
   const [isDrawOpen, setDrawOpen] = useState<boolean>(false);
-  const [drawFoods, setDrawFoods] = useState<BannerFood[]>([]);
+  const [drawFoods, setDrawFoods] = useState<DrawfoodsType[]>([]);
 
-  // useEffect(() => {
-  //   console.log(drawFoods);
-  // }, [drawFoods]);
   return (
     <DrawContext.Provider
       value={{ isDrawOpen, setDrawOpen, drawFoods, setDrawFoods }}

@@ -7,10 +7,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 export const FoodModalCard = (props: BannerFood) => {
-  console.log(props);
-
   const [quantity, setQuantity] = useState(1);
-  const { name, ingredient, newPrice = 0, image, price } = props;
+  const { name, ingredient, newPrice = 0, image, price, _id } = props;
   const { setModal, percentageModal } = useFModal();
   const { setDrawFoods, drawFoods } = useDraw();
 
@@ -121,7 +119,11 @@ export const FoodModalCard = (props: BannerFood) => {
           color="primary"
           fullWidth
           onClick={() => {
-            console.log(typeof price);
+            setDrawFoods((prev) => [
+              ...prev,
+              { food: props, quantity: quantity },
+            ]);
+            toast.success("Таны жагсаалтад амжилттай нэмэгдсэн");
           }}
         >
           Сагслах

@@ -10,16 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-// type InputProps = {
-//   label?: string;
-//   value: string;
-//   placeholder: string;
-//   setValue: Dispatch<SetStateAction<string>>;
-//   type: HTMLInputTypeAttribute;
-// };
-
 export const CustomInput = (props: TextFieldProps) => {
-  // const { placeholder, value, label, setValue, type = "text" } = props;
   const { label, type = "text", ...rest } = props;
   const [isShown, setIsShown] = useState(false);
   return (
@@ -27,7 +18,7 @@ export const CustomInput = (props: TextFieldProps) => {
       <Typography>{label}</Typography>
       <TextField
         {...rest}
-        fullWidth={true}
+        fullWidth
         type={type === "password" && isShown ? "text" : type}
         sx={{ bgcolor: "#ECEDF0" }}
         inputProps={{ style: { padding: "14 16" } }}
