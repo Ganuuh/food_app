@@ -1,20 +1,36 @@
-import { ProfileBottom } from "@/components/profileComps/ProfileBottom";
-import { ProfileTop } from "@/components/profileComps/ProfileTop";
+"use client";
+import { api } from "@/common";
+import { ProfileText } from "@/components/profileComps/ProfileText";
 import { Edit } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function Page() {
+  const getUser = async () => {
+    try {
+      const res = await api.get("/getUser", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+
+      // const { user } = res.data;
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <Stack
       width={"100%"}
       height={"100%"}
+      flexDirection={"row"}
       justifyContent={"center"}
       alignContent={"center"}
       marginTop={"55px"}
       py={10}
     >
-      <Stack gap={3}>
+      <Stack gap={3} width={400}>
         <Stack
           width={"100%"}
           alignItems={"center"}
@@ -50,8 +66,12 @@ export default function Page() {
           <Typography fontSize={28} fontWeight={700}>
             Ganbold
           </Typography>
+          {/* //Bottom */}
         </Stack>
-        <ProfileBottom />
+        {/* //one text */}
+        <ProfileText type="name" value="ganbold" />
+        <ProfileText type="name" value="ganbold" />
+        <ProfileText type="name" value="ganbold" />
       </Stack>
     </Stack>
   );
