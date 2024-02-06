@@ -1,20 +1,46 @@
 "use client";
 import { api } from "@/common";
+import { LoadingPage } from "@/components/loading";
 import { ProfileText } from "@/components/profileComps/ProfileText";
-import { Edit } from "@mui/icons-material";
+import { useAuth } from "@/providers/authProvider";
+import {
+  Call,
+  Edit,
+  EmailOutlined,
+  History,
+  Logout,
+  PersonOutline,
+} from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
+type userType = {
+  name: string;
+  number: number;
+  email: string;
+};
 export default function Page() {
+  const [user, setUser] = useState<userType>();
+  const router = useRouter();
+  const { isLoggedIn, logOut } = useAuth();
+
+  if (!isLoggedIn) {
+    return router.push("/home");
+  }
   const getUser = async () => {
     try {
       const res = await api.get("/getUser", {
         headers: { Authorization: localStorage.getItem("token") },
       });
 
-      // const { user } = res.data;
-    } catch (error) {}
+      const { user } = res.data;
+
+      setUser(user);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -66,12 +92,44 @@ export default function Page() {
           <Typography fontSize={28} fontWeight={700}>
             Ganbold
           </Typography>
-          {/* //Bottom */}
+          {/* Bottom */}
         </Stack>
         {/* //one text */}
-        <ProfileText type="name" value="ganbold" />
-        <ProfileText type="name" value="ganbold" />
-        <ProfileText type="name" value="ganbold" />
+        {!user ? (
+          <LoadingPage />
+        ) : (
+          <>
+            <ProfileText
+              type="grey"
+              value={user.name}
+              label="Таны нэр"
+              icon={<PersonOutline fontSize="large" />}
+            />
+            <ProfileText
+              type="grey"
+              value={user.number}
+              label="Утасны дугаар"
+              icon={<Call />}
+            />
+            <ProfileText
+              type="grey"
+              value={user.email}
+              label="Имэйл хаяг"
+              icon={<EmailOutlined />}
+            />
+            <ProfileText
+              type="white"
+              value={"Захиалгын түүх"}
+              icon={<History />}
+            />
+            <ProfileText
+              type="white"
+              value={"Гарах"}
+              icon={<Logout />}
+              f={logOut}
+            />
+          </>
+        )}
       </Stack>
     </Stack>
   );

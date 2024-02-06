@@ -22,12 +22,14 @@ type SignUpType = {
 type AuthContextValue = {
   isLoggedIn: boolean;
   logIn: (values: logIntype) => Promise<void>;
+  logOut: () => void;
 };
 
 const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsloggedIn] = useState(false);
+  const [loggedOut, setLogOut] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (token) {
       setIsloggedIn(true);
     }
-  }, []);
+  }, [loggedOut]);
 
   const signUp = async (values: SignUpType) => {
     try {
@@ -66,17 +68,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       localStorage.setItem("token", token);
       localStorage.setItem("name", name);
       toast.success("User logged in");
+      setLogOut((prev) => !prev);
     } catch (error: any) {
       toast.warn(error.response.data.message);
     }
   };
-  const logOut = async (id: string) => {};
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setLogOut((prev) => !prev);
+    toast.success("Logged out!");
+  };
 
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn,
         logIn,
+        logOut,
       }}
     >
       {children}

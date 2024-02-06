@@ -21,8 +21,6 @@ export const signUp: RequestHandler = async (req, res) => {
       address,
     });
 
-    console.log("here");
-
     const id = createdUser?._id;
 
     const token = jwt.sign({ id }, "secret-key");

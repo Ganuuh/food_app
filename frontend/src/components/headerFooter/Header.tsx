@@ -142,6 +142,7 @@ export const Header = () => {
               height={32}
               flexDirection={"row"}
               alignItems={"center"}
+              justifyContent={"center"}
               borderRadius={"50%"}
               overflow={"hidden"}
             >

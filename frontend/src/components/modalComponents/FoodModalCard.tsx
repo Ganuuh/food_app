@@ -1,3 +1,5 @@
+import { api } from "@/common";
+import { useAuth } from "@/providers/authProvider";
 import { useDraw } from "@/providers/drawBarProvider";
 import { BannerFood, useFModal } from "@/providers/FoodModalProvider";
 import { Add, Close, Remove } from "@mui/icons-material";
@@ -10,7 +12,21 @@ export const FoodModalCard = (props: BannerFood) => {
   const [quantity, setQuantity] = useState(1);
   const { name, ingredient, newPrice = 0, image, price, _id } = props;
   const { setModal, percentageModal } = useFModal();
-  const { setDrawFoods, drawFoods } = useDraw();
+  const { isLoggedIn } = useAuth();
+  const addFoodList = async (id: string, quantity: number) => {
+    try {
+      const res = await api.post(
+        "/foods/addCardFood",
+        { id: id, quantity: quantity },
+        { headers: { Authorization: localStorage.getItem("token") } }
+      );
+      console.log(res.data);
+      toast.success(res.data);
+      setModal(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const clickHandler = () => {
     if (quantity === 1) {
@@ -119,11 +135,8 @@ export const FoodModalCard = (props: BannerFood) => {
           color="primary"
           fullWidth
           onClick={() => {
-            setDrawFoods((prev) => [
-              ...prev,
-              { food: props, quantity: quantity },
-            ]);
-            toast.success("Таны жагсаалтад амжилттай нэмэгдсэн");
+            isLoggedIn;
+            addFoodList(_id, quantity);
           }}
         >
           Сагслах

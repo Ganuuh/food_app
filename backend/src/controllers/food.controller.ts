@@ -1,5 +1,7 @@
 import { RequestHandler } from "express";
 import { FoodModel } from "../models/food.model";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { CardModel } from "../models";
 
 export const addFood: RequestHandler = async (req, res) => {
   try {
@@ -51,5 +53,35 @@ export const getFoodById: RequestHandler = async (req, res) => {
     res.status(401).json({
       message: "Error to get food by id",
     });
+  }
+};
+export const addFoodList: RequestHandler = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      return res.status(401).json({
+        message: "No token found",
+      });
+    }
+    console.log(authorization);
+
+    const { userId } = jwt.verify(authorization, "secret-key") as JwtPayload;
+
+    console.log(userId);
+
+    const { id, quantity } = req.body;
+
+    await CardModel.create({
+      userId: userId,
+      id: id,
+      quantity: quantity,
+    });
+
+    res.json({
+      message: "Таны жагсаалтад амжилттай нэмэгдсэн",
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

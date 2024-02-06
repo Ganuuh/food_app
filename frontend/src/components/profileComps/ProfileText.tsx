@@ -1,16 +1,20 @@
-import { EditOutlined, PersonOutlined } from "@mui/icons-material";
+import { EditOutlined } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 
 type ProfileTextProps = {
-  type: "email" | "name" | "phone";
-  value: string;
+  type: "white" | "grey";
+  value: string | number;
+  label?: string;
+  icon: React.ReactNode;
+  f?: () => void;
 };
 
 export const ProfileText = (props: ProfileTextProps) => {
+  const { type, value, label = "", icon, f } = props;
   return (
     <Stack
       padding={2}
-      bgcolor={"#F6F6F6"}
+      bgcolor={type === "grey" ? "#F6F6F6" : "white"}
       borderRadius={0.5}
       flexDirection={"row"}
       justifyContent={"space-between"}
@@ -23,27 +27,42 @@ export const ProfileText = (props: ProfileTextProps) => {
         height={"100%"}
       >
         <Stack
-          height={"100%"}
+          height={48}
           sx={{ aspectRatio: "1/1" }}
           borderRadius={"50%"}
           bgcolor={"white"}
           alignItems={"center"}
           justifyContent={"center"}
+          border={"1px solid #D9D9D9"}
         >
-          <PersonOutlined fontSize="large" />
+          {icon}
         </Stack>
         <Stack>
           <Stack gap={0.5}>
-            <Typography color={"#888A99"} fontSize={12}>
-              Таны нэр
+            {label === "" ? null : (
+              <Typography color={"#888A99"} fontSize={12}>
+                {label}
+              </Typography>
+            )}
+            <Typography
+              fontSize={16}
+              onClick={() => {
+                f === undefined ? null : f();
+              }}
+              sx={{ cursor: type === "white" ? "pointer" : "default" }}
+            >
+              {value === undefined
+                ? `Таны ${label.toLowerCase()} хоосон байна`
+                : value}
             </Typography>
-            <Typography fontSize={16}>УгтахБаяр</Typography>
           </Stack>
         </Stack>
       </Stack>
-      <Stack color={"primary.main"}>
-        <EditOutlined />
-      </Stack>
+      {type === "white" ? null : (
+        <Stack color={"primary.main"}>
+          <EditOutlined />
+        </Stack>
+      )}
     </Stack>
   );
 };
