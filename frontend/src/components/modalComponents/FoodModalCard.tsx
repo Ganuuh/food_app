@@ -1,6 +1,5 @@
 import { api } from "@/common";
 import { useAuth } from "@/providers/authProvider";
-import { useDraw } from "@/providers/drawBarProvider";
 import { BannerFood, useFModal } from "@/providers/FoodModalProvider";
 import { Add, Close, Remove } from "@mui/icons-material";
 import { Button, Stack, Typography } from "@mui/material";
@@ -13,6 +12,7 @@ export const FoodModalCard = (props: BannerFood) => {
   const { name, ingredient, newPrice = 0, image, price, _id } = props;
   const { setModal, percentageModal } = useFModal();
   const { isLoggedIn } = useAuth();
+
   const addFoodList = async (id: string, quantity: number) => {
     try {
       const res = await api.post(
@@ -20,8 +20,8 @@ export const FoodModalCard = (props: BannerFood) => {
         { id: id, quantity: quantity },
         { headers: { Authorization: localStorage.getItem("token") } }
       );
-      console.log(res.data);
-      toast.success(res.data);
+
+      toast.success(res.data.message);
       setModal(false);
     } catch (error) {
       console.log(error);

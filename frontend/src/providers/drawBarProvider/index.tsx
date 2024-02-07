@@ -17,11 +17,18 @@ type DrawProviderValue = {
   setDrawOpen: Dispatch<SetStateAction<boolean>>;
   drawFoods: DrawfoodsType[];
   setDrawFoods: Dispatch<SetStateAction<DrawfoodsType[]>>;
-  addFoodList: (id: string, quantity: number) => void;
+  getCardFood: () => Promise<void>;
+  addFoodList: (id: string, quantity: number) => Promise<void>;
 };
 
 export type DrawfoodsType = {
   food: BannerFood;
+  quantity: number;
+};
+
+type Data = {
+  id: string;
+  userId: string;
   quantity: number;
 };
 
@@ -31,6 +38,7 @@ type DrawProviderProps = {
 export const DrawProvider = ({ children }: DrawProviderProps) => {
   const [isDrawOpen, setDrawOpen] = useState<boolean>(false);
   const [drawFoods, setDrawFoods] = useState<DrawfoodsType[]>([]);
+  const [foodId, setFoodId] = useState([]);
   const addFoodList = async (id: string, quantity: number) => {
     try {
       const res = await api.post(
@@ -45,9 +53,35 @@ export const DrawProvider = ({ children }: DrawProviderProps) => {
     }
   };
 
+  const getCardFood = async () => {
+    try {
+      const res = await api.get("/foods/getCardFood", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+
+      const myData = res.data;
+
+      console.log(typeof myData);
+
+      myData.forEach((data: Data) => {
+        console.log(data.id);
+      });
+
+      setDrawFoods(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <DrawContext.Provider
-      value={{ isDrawOpen, setDrawOpen, drawFoods, setDrawFoods, addFoodList }}
+      value={{
+        isDrawOpen,
+        setDrawOpen,
+        drawFoods,
+        setDrawFoods,
+        addFoodList,
+        getCardFood,
+      }}
     >
       {children}
       {isDrawOpen ? <DrawBar /> : null}

@@ -1,11 +1,16 @@
+"use client";
 import { Button, Slide, Stack, Typography } from "@mui/material";
 import { DrawBarFood } from "../modalComponents/DrawBarFood";
 import { KeyboardArrowLeft } from "@mui/icons-material";
 import { useDraw } from "@/providers/drawBarProvider";
+import { useEffect } from "react";
 
 export const DrawBar = () => {
-  const { isDrawOpen, setDrawOpen, drawFoods } = useDraw();
+  const { isDrawOpen, setDrawOpen, drawFoods, getCardFood } = useDraw();
 
+  useEffect(() => {
+    getCardFood();
+  }, []);
   return (
     <Stack
       zIndex={50}
@@ -50,7 +55,14 @@ export const DrawBar = () => {
             </Typography>
             <Stack></Stack>
           </Stack>
-          <DrawBarFood />
+          {/* {drawFoods.length === 0 ? (
+            <Typography>No foods</Typography>
+          ) : (
+            drawFoods.map((each) => {
+              return <DrawBarFood  {...each/>;
+            })
+          )} */}
+
           <Stack
             boxShadow={"0px -4px 8px 0px rgba(187, 190, 205, 0.20)"}
             zIndex={10}

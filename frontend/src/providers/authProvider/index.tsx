@@ -1,8 +1,16 @@
 "use client";
 
 import { api } from "@/common";
+import { LogOutModal } from "@/components/modalComponents/LogOutModal";
 import { useRouter } from "next/navigation";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "react-toastify";
 
 type AuthProviderProps = {
@@ -21,6 +29,8 @@ type SignUpType = {
 
 type AuthContextValue = {
   isLoggedIn: boolean;
+  setModal: Dispatch<SetStateAction<boolean>>;
+  logOutModal: boolean;
   logIn: (values: logIntype) => Promise<void>;
   logOut: () => void;
 };
@@ -30,6 +40,7 @@ const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [loggedOut, setLogOut] = useState(false);
+  const [logOutModal, setModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -77,6 +88,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.removeItem("token");
     setLogOut((prev) => !prev);
     toast.success("Logged out!");
+    router.push("/home");
   };
 
   return (
@@ -85,9 +97,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isLoggedIn,
         logIn,
         logOut,
+        setModal,
+        logOutModal,
       }}
     >
-      {children}
+      {children} {logOutModal ? <LogOutModal /> : null}
     </AuthContext.Provider>
   );
 };

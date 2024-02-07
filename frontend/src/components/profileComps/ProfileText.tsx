@@ -1,5 +1,6 @@
 import { EditOutlined } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 
 type ProfileTextProps = {
   type: "white" | "grey";
@@ -7,10 +8,11 @@ type ProfileTextProps = {
   label?: string;
   icon: React.ReactNode;
   f?: () => void;
+  setState?: Dispatch<SetStateAction<boolean>>;
 };
 
 export const ProfileText = (props: ProfileTextProps) => {
-  const { type, value, label = "", icon, f } = props;
+  const { type, value, label = "", icon, f, setState } = props;
   return (
     <Stack
       padding={2}
@@ -47,7 +49,7 @@ export const ProfileText = (props: ProfileTextProps) => {
             <Typography
               fontSize={16}
               onClick={() => {
-                f === undefined ? null : f();
+                setState === undefined ? null : setState(true);
               }}
               sx={{ cursor: type === "white" ? "pointer" : "default" }}
             >

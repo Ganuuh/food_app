@@ -24,7 +24,7 @@ type userType = {
 export default function Page() {
   const [user, setUser] = useState<userType>();
   const router = useRouter();
-  const { isLoggedIn, logOut } = useAuth();
+  const { isLoggedIn, setModal } = useAuth();
 
   if (!isLoggedIn) {
     return router.push("/home");
@@ -126,7 +126,7 @@ export default function Page() {
               type="white"
               value={"Гарах"}
               icon={<Logout />}
-              f={logOut}
+              setState={setModal}
             />
           </>
         )}

@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { FoodModel } from "../models/food.model";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { CardModel } from "../models";
+import { json } from "stream/consumers";
 
 export const addFood: RequestHandler = async (req, res) => {
   try {
@@ -64,11 +65,11 @@ export const addFoodList: RequestHandler = async (req, res) => {
         message: "No token found",
       });
     }
-    console.log(authorization);
 
-    const { userId } = jwt.verify(authorization, "secret-key") as JwtPayload;
-
-    console.log(userId);
+    const { id: userId } = jwt.verify(
+      authorization,
+      "secret-key"
+    ) as JwtPayload;
 
     const { id, quantity } = req.body;
 
@@ -81,6 +82,29 @@ export const addFoodList: RequestHandler = async (req, res) => {
     res.json({
       message: "Таны жагсаалтад амжилттай нэмэгдсэн",
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCardFood: RequestHandler = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+      return res.status(401).json({
+        message: "No token found",
+      });
+    }
+
+    const { id: userId } = jwt.verify(
+      authorization,
+      "secret-key"
+    ) as JwtPayload;
+
+    const foods = await CardModel.find({ userId: userId });
+
+    res.json({ foods });
   } catch (error) {
     console.log(error);
   }
