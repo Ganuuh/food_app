@@ -29,6 +29,7 @@ export default function Page() {
   if (!isLoggedIn) {
     return router.push("/home");
   }
+
   const getUser = async () => {
     try {
       const res = await api.get("/getUser", {

@@ -1,3 +1,4 @@
+"use client";
 import { Collapse, Stack } from "@mui/material";
 import { LoginCard } from "../loginSignup/LoginCard";
 import { Dispatch, SetStateAction } from "react";

@@ -39,16 +39,9 @@ const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsloggedIn] = useState(false);
-  const [loggedOut, setLogOut] = useState(false);
+  // const [checkToken, setToken] = useState(false);
   const [logOutModal, setModal] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsloggedIn(true);
-    }
-  }, [loggedOut]);
 
   const signUp = async (values: SignUpType) => {
     try {
@@ -74,22 +67,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password: values.password,
       });
       const { token, name } = res.data;
-
-      setIsloggedIn(true);
       localStorage.setItem("token", token);
       localStorage.setItem("name", name);
+      // setToken((prev) => !prev);
       toast.success("User logged in");
-      setLogOut((prev) => !prev);
     } catch (error: any) {
       toast.warn(error.response.data.message);
     }
   };
   const logOut = () => {
     localStorage.removeItem("token");
-    setLogOut((prev) => !prev);
+    setIsloggedIn(false);
+    // setToken((prev) => !prev);
     toast.success("Logged out!");
     router.push("/home");
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsloggedIn(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    router.push("/home");
+  }, [isLoggedIn]);
 
   return (
     <AuthContext.Provider
