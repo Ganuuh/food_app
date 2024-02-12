@@ -6,11 +6,19 @@ import { useDraw } from "@/providers/drawBarProvider";
 import { useEffect } from "react";
 
 export const DrawBar = () => {
-  const { isDrawOpen, setDrawOpen, drawFoods, getCardFood } = useDraw();
+  const {
+    isDrawOpen,
+    setDrawOpen,
+    drawFoodList,
+    getCardFood,
+    drawFoods,
+    price,
+  } = useDraw();
 
   useEffect(() => {
     getCardFood();
   }, []);
+
   return (
     <Stack
       zIndex={50}
@@ -55,19 +63,24 @@ export const DrawBar = () => {
             </Typography>
             <Stack></Stack>
           </Stack>
-          {/* {drawFoods.length === 0 ? (
-            <Typography>No foods</Typography>
-          ) : (
-            drawFoods.map((each) => {
-              return <DrawBarFood  {...each/>;
-            })
-          )} */}
+          <Stack overflow={"scroll"}>
+            {drawFoodList.length === 0 ? (
+              <Typography color={"primary"} width={400} textAlign={"center"}>
+                Loading...
+              </Typography>
+            ) : (
+              drawFoodList.map((each, index) => {
+                return <DrawBarFood key={index} {...each} />;
+              })
+            )}
+          </Stack>
 
           <Stack
             boxShadow={"0px -4px 8px 0px rgba(187, 190, 205, 0.20)"}
             zIndex={10}
             position={"absolute"}
             bottom={0}
+            bgcolor={"white"}
             left={0}
             width={"100%"}
             flexDirection={"row"}
@@ -80,7 +93,7 @@ export const DrawBar = () => {
                 Нийт төлөх дүн
               </Typography>
               <Typography fontSize={18} color={"#121316"} fontWeight={700}>
-                34,800₮
+                {price}₮
               </Typography>
             </Stack>
             <Button variant="contained" color="primary">

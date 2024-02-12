@@ -18,17 +18,18 @@ type DrawProviderValue = {
   drawFoods: DrawfoodsType[];
   setDrawFoods: Dispatch<SetStateAction<DrawfoodsType[]>>;
   getCardFood: () => Promise<void>;
-  addFoodList: (id: string, quantity: number) => Promise<void>;
+  drawFoodList: DrawListType[];
+  price: number;
 };
 
 export type DrawfoodsType = {
-  food: BannerFood;
+  id: string;
+  userId: string;
   quantity: number;
 };
 
-type Data = {
-  id: string;
-  userId: string;
+export type DrawListType = {
+  food: BannerFood;
   quantity: number;
 };
 
@@ -38,20 +39,8 @@ type DrawProviderProps = {
 export const DrawProvider = ({ children }: DrawProviderProps) => {
   const [isDrawOpen, setDrawOpen] = useState<boolean>(false);
   const [drawFoods, setDrawFoods] = useState<DrawfoodsType[]>([]);
-  const [foodId, setFoodId] = useState([]);
-  const addFoodList = async (id: string, quantity: number) => {
-    try {
-      const res = await api.post(
-        "/addCardFood",
-        { id: id, quantity: quantity },
-        { headers: { Authorization: localStorage.getItem("token") } }
-      );
-
-      toast.success(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [drawFoodList, setDrawList] = useState<DrawListType[]>([]);
+  const [price, setPrice] = useState<number>(0);
 
   const getCardFood = async () => {
     try {
@@ -59,19 +48,31 @@ export const DrawProvider = ({ children }: DrawProviderProps) => {
         headers: { Authorization: localStorage.getItem("token") },
       });
 
-      const myData = res.data;
+      setDrawFoods(res.data);
 
-      console.log(typeof myData);
+      drawFoods.forEach(async (each) => {
+        try {
+          const res = await api.post("/foods/getById", { id: each.id });
 
-      myData.forEach((data: Data) => {
-        console.log(data.id);
+          const { food } = res.data;
+
+          setPrice((prev) => prev + food.price * each.quantity);
+
+          setDrawList((prev) => [
+            ...prev,
+            { food: food, quantity: each.quantity },
+          ]);
+        } catch (error) {
+          console.log(error);
+        }
       });
 
-      setDrawFoods(res.data);
+      console.log(drawFoodList);
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <DrawContext.Provider
       value={{
@@ -79,8 +80,9 @@ export const DrawProvider = ({ children }: DrawProviderProps) => {
         setDrawOpen,
         drawFoods,
         setDrawFoods,
-        addFoodList,
         getCardFood,
+        drawFoodList,
+        price,
       }}
     >
       {children}

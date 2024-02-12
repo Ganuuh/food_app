@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 export default function Home() {
   const { isLoggedIn } = useAuth();
   const router = useRouter();
-  if (!isLoggedIn) {
+  if (isLoggedIn) {
     toast.success("Та нэвтэрсэн байна !");
     router.push("/home");
   }

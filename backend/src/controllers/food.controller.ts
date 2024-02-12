@@ -2,7 +2,6 @@ import { RequestHandler } from "express";
 import { FoodModel } from "../models/food.model";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { CardModel } from "../models";
-import { json } from "stream/consumers";
 
 export const addFood: RequestHandler = async (req, res) => {
   try {
@@ -56,6 +55,7 @@ export const getFoodById: RequestHandler = async (req, res) => {
     });
   }
 };
+
 export const addFoodList: RequestHandler = async (req, res) => {
   try {
     const { authorization } = req.headers;
@@ -104,7 +104,7 @@ export const getCardFood: RequestHandler = async (req, res) => {
 
     const foods = await CardModel.find({ userId: userId });
 
-    res.json({ foods });
+    res.json(foods);
   } catch (error) {
     console.log(error);
   }

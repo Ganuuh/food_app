@@ -39,8 +39,8 @@ const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsloggedIn] = useState(false);
-  // const [checkToken, setToken] = useState(false);
   const [logOutModal, setModal] = useState(false);
+  const [checkToken, setCheckToken] = useState(false);
   const router = useRouter();
 
   const signUp = async (values: SignUpType) => {
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const { token, name } = res.data;
       localStorage.setItem("token", token);
       localStorage.setItem("name", name);
-      // setToken((prev) => !prev);
+      setCheckToken((prev) => !prev);
       toast.success("User logged in");
     } catch (error: any) {
       toast.warn(error.response.data.message);
@@ -77,8 +77,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
   const logOut = () => {
     localStorage.removeItem("token");
+    setCheckToken((prev) => !prev);
     setIsloggedIn(false);
-    // setToken((prev) => !prev);
     toast.success("Logged out!");
     router.push("/home");
   };
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (token) {
       setIsloggedIn(true);
     }
-  }, []);
+  }, [checkToken]);
 
   useEffect(() => {
     router.push("/home");

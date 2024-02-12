@@ -70,7 +70,19 @@ export const LoginCard = (props: LogInCardProps) => {
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-        <Typography sx={{ alignSelf: "end" }}>Нууц үг сэргээх</Typography>
+        <Typography
+          sx={{
+            alignSelf: "end",
+            textDecorationLine: "underline",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            router.push("/passrec");
+            setShown(false);
+          }}
+        >
+          Нууц үг сэргээх
+        </Typography>
       </Stack>
       <Stack width={"full"} gap={4}>
         <Button
