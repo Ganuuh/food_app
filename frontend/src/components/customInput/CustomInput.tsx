@@ -14,7 +14,7 @@ export const CustomInput = (props: TextFieldProps) => {
   const { label, type = "text", ...rest } = props;
   const [isShown, setIsShown] = useState(false);
   return (
-    <Stack width={1 / 1} gap={0.5} height={"full"}>
+    <Stack width={"100%"} gap={0.5}>
       <Typography>{label}</Typography>
       <TextField
         {...rest}

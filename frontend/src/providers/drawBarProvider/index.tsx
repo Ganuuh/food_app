@@ -56,7 +56,7 @@ export const DrawProvider = ({ children }: DrawProviderProps) => {
 
           const { food } = res.data;
 
-          setPrice((prev) => prev + food.price * each.quantity);
+          setPrice((prev) => prev + food.newPrice * each.quantity);
 
           setDrawList((prev) => [
             ...prev,

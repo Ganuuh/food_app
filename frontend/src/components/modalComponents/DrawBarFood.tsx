@@ -4,7 +4,7 @@ import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 export const DrawBarFood = (props: DrawListType) => {
-  const { name, price, image, ingredient } = props.food;
+  const { name, price, image, ingredient, newPrice } = props.food;
   return (
     <Stack width={530} gap={3}>
       <Stack width={"100%"} border={"1px solid #D6D8DB"}></Stack>
@@ -29,7 +29,7 @@ export const DrawBarFood = (props: DrawListType) => {
                 {name}
               </Typography>
               <Typography color={"primary"} fontSize={18} fontWeight={600}>
-                {price}₮
+                {newPrice}₮
               </Typography>
             </Stack>
 
