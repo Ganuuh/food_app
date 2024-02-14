@@ -154,7 +154,7 @@ export const Header = () => {
             </Stack>
 
             <Typography color={"black"}>
-              {isLoggedIn ? localStorage.getItem("name") : "Нэвтрэх"}
+              {isLoggedIn ? "Ganuu" : "Нэвтрэх"}
             </Typography>
           </Stack>
         </Stack>

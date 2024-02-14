@@ -91,7 +91,7 @@ export default function Page() {
             </Stack>
           </Stack>
           <Typography fontSize={28} fontWeight={700}>
-            Ganbold
+            {user?.name}
           </Typography>
           {/* Bottom */}
         </Stack>

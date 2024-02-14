@@ -3,14 +3,23 @@ import { CustomInput } from "@/components/customInput/CustomInput";
 import { usePass } from "@/providers/passRecProvider/passrecProvider";
 import { Button, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
 export default function Page() {
-  const validationSchema = yup.object({ code: yup.number().required() });
+  const { otp } = usePass();
+  const router = useRouter();
+  const validationSchema = yup.object({
+    code: yup.number().required().oneOf([otp], "Wrong code"),
+  });
   const formik = useFormik({
     initialValues: { code: "" },
     validationSchema: validationSchema,
-    onSubmit: () => {},
+    onSubmit: () => {
+      toast.success("Confirmation successful");
+      router.push("/passrec/changepass");
+    },
   });
   const { email } = usePass();
   return (

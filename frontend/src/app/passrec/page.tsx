@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import * as yup from "yup";
 
 export default function Page() {
-  const { setEmail } = usePass();
+  const { setEmail, sendOTP } = usePass();
   const router = useRouter();
   const validationSchema = yup.object({
     email: yup.string().required().email(),
@@ -17,7 +17,7 @@ export default function Page() {
     validationSchema: validationSchema,
     onSubmit: () => {
       setEmail(formik.values.email);
-      router.push("/passrec/confirm_otp");
+      sendOTP(formik.values.email);
     },
   });
   return (

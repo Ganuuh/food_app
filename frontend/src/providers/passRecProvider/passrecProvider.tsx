@@ -1,3 +1,5 @@
+import { api } from "@/common";
+import { useRouter } from "next/navigation";
 import {
   Dispatch,
   SetStateAction,
@@ -5,6 +7,7 @@ import {
   useContext,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 
 type PassRecType = {
   children: React.ReactNode;
@@ -15,16 +18,59 @@ type PassValueType = {
   setRecoveryStep: Dispatch<SetStateAction<number>>;
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
+  sendOTP: (email: string) => Promise<void>;
+  otp: number;
+  setOtp: Dispatch<SetStateAction<number>>;
+  changePassword: (password: string, email: string) => Promise<void>;
 };
 
 const PassRecContext = createContext<PassValueType>({} as PassValueType);
 
 export const PassrecProvider = ({ children }: PassRecType) => {
   const [recoveryStep, setRecoveryStep] = useState(0);
+  const [otp, setOtp] = useState(0);
   const [email, setEmail] = useState("");
+
+  const router = useRouter();
+
+  const sendOTP = async (email: string) => {
+    try {
+      const res = await api.post("/sendOtp", { email: email });
+
+      toast.success(res.data.message);
+
+      setOtp(res.data.otp);
+
+      router.push("/passrec/confirm_otp");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const changePassword = async (password: string, email: string) => {
+    try {
+      const res = await api.post("/changePass", {
+        password: password,
+        email: email,
+      });
+
+      toast.success(res.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <PassRecContext.Provider
-      value={{ recoveryStep, setRecoveryStep, email, setEmail }}
+      value={{
+        recoveryStep,
+        setRecoveryStep,
+        email,
+        setEmail,
+        sendOTP,
+        otp,
+        setOtp,
+        changePassword,
+      }}
     >
       {children}
     </PassRecContext.Provider>
