@@ -15,7 +15,7 @@ export const sendOTP: RequestHandler = async (req, res) => {
     const user = UserModel.findOne({ email: email });
 
     if (!user) {
-      return res.json({
+      return res.status(401).json({
         message: "User not found , Please sign in",
       });
     }

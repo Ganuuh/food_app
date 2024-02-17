@@ -16,17 +16,35 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HeaderLoginCard } from "./HeaderLoginCard";
 import { useDraw } from "@/providers/drawBarProvider";
 import { ProfilePicFrame } from "../profileComps/ProfilePic";
+import { api } from "@/common";
 export const Header = () => {
   const [searchValue, setSearchValue] = useState("");
+  const [userName, setUserName] = useState("");
   const router = useRouter();
   const [login, setLogin] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, checkToken } = useAuth();
   const { myLink } = useFModal();
   const { setDrawOpen } = useDraw();
+
+  const getUserName = async () => {
+    try {
+      const res = await api.get("/getUserName", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+
+      setUserName(res.data.userName);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserName();
+  }, []);
   return (
     <Stack
       sx={{
@@ -134,6 +152,7 @@ export const Header = () => {
             alignItems={"center"}
             gap={1}
             onClick={() => {
+              getUserName();
               isLoggedIn ? router.push("/profile") : setLogin(true);
             }}
           >
@@ -154,7 +173,7 @@ export const Header = () => {
             </Stack>
 
             <Typography color={"black"}>
-              {isLoggedIn ? "Ganuu" : "Нэвтрэх"}
+              {isLoggedIn ? userName : "Нэвтрэх"}
             </Typography>
           </Stack>
         </Stack>

@@ -6,6 +6,7 @@ const foodSchema = new Schema({
   ingredient: String,
   price: Number,
   newPrice: Number,
+  category: String,
 });
 
 export const FoodModel = model("foods", foodSchema);

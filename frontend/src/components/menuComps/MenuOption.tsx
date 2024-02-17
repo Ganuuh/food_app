@@ -1,11 +1,11 @@
 "use client";
 import { Stack } from "@mui/material";
 import { EachOption } from "./EachOption";
-import { useState } from "react";
+import { useFModal } from "@/providers/FoodModalProvider";
 
 export const MenuOption = () => {
-  const [selected, setSelected] = useState("Main course");
-  const options = ["Main course", "Appetizers", "Beverage", "On sale"];
+  const { foodFilter, setFilter } = useFModal();
+  const options = ["Main course", "Appetizer", "Beverage", "On sale"];
   return (
     <Stack
       paddingY={4}
@@ -23,9 +23,9 @@ export const MenuOption = () => {
         return (
           <EachOption
             key={each}
-            state={selected}
+            state={foodFilter}
             text={each}
-            setSelected={setSelected}
+            setSelected={setFilter}
           />
         );
       })}

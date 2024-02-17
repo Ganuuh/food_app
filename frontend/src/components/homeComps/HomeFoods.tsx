@@ -1,21 +1,35 @@
+"use client";
+
 import { Stack, Typography } from "@mui/material";
 import { HomeFoodHeader } from "./HomeFoodHeader";
 
 import { FoodCard } from "../foodCard/FoodCard";
+import { useEffect, useState } from "react";
+import { api } from "@/common";
+import { toast } from "react-toastify";
 
 type HomeFoodsProps = {
-  foods: {
-    name: string;
-    image: string;
-    ingredient?: string;
-    price: number;
-    newPrice?: number;
-    _id: string;
-  }[];
   title: string;
 };
 export const HomeFoods = (props: HomeFoodsProps) => {
-  const { foods, title } = props;
+  const { title } = props;
+  const [foods, setFoods] = useState([]);
+
+  const getAllFoods = async () => {
+    try {
+      const { data } = await api.get("/foods/getAll", {
+        params: { filter: title.toLowerCase() },
+      });
+
+      setFoods(data);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  };
+  useEffect(() => {
+    getAllFoods();
+  }, []);
+
   return (
     <Stack width={"80%"} maxWidth={1440} gap={5}>
       <HomeFoodHeader title={title} />
@@ -26,10 +40,11 @@ export const HomeFoods = (props: HomeFoodsProps) => {
         sx={{ display: "grid", gridTemplateColumns: "repeat(4 ,1fr)" }}
       >
         {foods.length === 0 ? (
-          <Typography>Baijeee sda</Typography>
+          <Typography>Loading....</Typography>
         ) : (
           foods.map((food) => {
             const { name, price, newPrice, image, _id } = food;
+
             return (
               <FoodCard
                 key={_id}

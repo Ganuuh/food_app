@@ -1,27 +1,10 @@
 "use client";
-import { api } from "@/common";
 import { HomeCards } from "@/components/homeComps/HomeCards";
 import { HomeFoods } from "@/components/homeComps/HomeFoods";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 export default function Page() {
-  const [foods, setFoods] = useState([]);
-
-  const getAllFoods = async () => {
-    try {
-      const { data } = await api.get("/foods/getAll");
-
-      setFoods(data);
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-    }
-  };
-  useEffect(() => {
-    getAllFoods();
-  }, []);
   return (
     <Stack marginTop={"55px"} width={"full"} gap={"122px"}>
       <Stack
@@ -89,10 +72,10 @@ export default function Page() {
         <HomeCards />
       </Stack>
       <Stack width={"full"} alignItems={"center"} gap={10}>
-        <HomeFoods foods={foods} title=" Хямдралтай" />
-        {/* <HomeFoods foods={foods} title=" Үндсэн хоол" />
-        <HomeFoods foods={foods} title=" Салад ба зууш" />
-        <HomeFoods foods={foods} title=" Амттан" /> */}
+        <HomeFoods title="Main course" />
+        <HomeFoods title="Appetizer" />
+        <HomeFoods title="Beverage" />
+        <HomeFoods title="On sale" />
       </Stack>
     </Stack>
   );

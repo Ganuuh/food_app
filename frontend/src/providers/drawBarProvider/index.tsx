@@ -8,7 +8,6 @@ import React, {
 import { BannerFood } from "../FoodModalProvider";
 import { DrawBar } from "@/components/headerFooter/HeaderLoginBrawBar";
 import { api } from "@/common";
-import { toast } from "react-toastify";
 
 const DrawContext = createContext<DrawProviderValue>({} as DrawProviderValue);
 

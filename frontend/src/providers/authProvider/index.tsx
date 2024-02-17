@@ -33,6 +33,7 @@ type AuthContextValue = {
   logOutModal: boolean;
   logIn: (values: logIntype) => Promise<void>;
   logOut: () => void;
+  checkToken: boolean;
 };
 
 const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
@@ -59,7 +60,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       toast.error(error.response.data.message);
     }
   };
-
   const logIn = async (values: logIntype) => {
     try {
       const res = await api.post("/logIn", {
@@ -87,6 +87,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsloggedIn(true);
+    } else {
+      setIsloggedIn(false);
     }
   }, [checkToken]);
 
@@ -102,6 +104,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         logOut,
         setModal,
         logOutModal,
+        checkToken,
       }}
     >
       {children} {logOutModal ? <LogOutModal /> : null}

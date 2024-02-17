@@ -4,6 +4,7 @@ import { DrawBarFood } from "../modalComponents/DrawBarFood";
 import { KeyboardArrowLeft } from "@mui/icons-material";
 import { useDraw } from "@/providers/drawBarProvider";
 import { useEffect } from "react";
+import { useAuth } from "@/providers/authProvider";
 
 export const DrawBar = () => {
   const {
@@ -15,9 +16,11 @@ export const DrawBar = () => {
     price,
   } = useDraw();
 
-  useEffect(() => {
-    getCardFood();
-  }, []);
+  const { isLoggedIn } = useAuth();
+
+  // useEffect(() => {
+  //   getCardFood();
+  // }, []);
 
   return (
     <Stack
@@ -64,9 +67,13 @@ export const DrawBar = () => {
             <Stack></Stack>
           </Stack>
           <Stack overflow={"scroll"}>
-            {drawFoodList.length === 0 ? (
+            {!isLoggedIn ? (
               <Typography color={"primary"} width={400} textAlign={"center"}>
-                Loading...
+                Please log in !
+              </Typography>
+            ) : drawFoodList.length === 0 ? (
+              <Typography color={"primary"} width={400} textAlign={"center"}>
+                You dont have foods in card so far
               </Typography>
             ) : (
               drawFoodList.map((each, index) => {

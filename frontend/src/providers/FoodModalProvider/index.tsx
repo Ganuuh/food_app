@@ -33,6 +33,8 @@ type LinkProviderType = {
   setModal: Dispatch<SetStateAction<boolean>>;
   percentageModal: number;
   setPercentageModal: Dispatch<SetStateAction<number>>;
+  foodFilter: string;
+  setFilter: Dispatch<SetStateAction<string>>;
 };
 
 type LinkProviderProps = {
@@ -46,6 +48,7 @@ export const BannerProvider = ({ children }: LinkProviderProps) => {
   const [bannerFood, setBFood] = useState<BannerFood | null>(null);
   const [foodModal, setModal] = useState(false);
   const [percentageModal, setPercentageModal] = useState(0);
+  const [foodFilter, setFilter] = useState<string>("main course");
 
   const getFoodById = async (id: string) => {
     try {
@@ -77,6 +80,8 @@ export const BannerProvider = ({ children }: LinkProviderProps) => {
         setModal,
         percentageModal,
         setPercentageModal,
+        foodFilter,
+        setFilter,
       }}
     >
       {children}

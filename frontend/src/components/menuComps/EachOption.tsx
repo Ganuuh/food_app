@@ -11,15 +11,16 @@ export const EachOption = (props: EachOptionProps) => {
   return (
     <Typography
       onClick={() => {
-        setSelected(text);
+        setSelected(text.toLowerCase());
       }}
       sx={{
         borderRadius: "16px",
         fontWeight: 600,
         padding: "8px 0",
         textAlign: "center",
-        backgroundColor: text !== state ? "white" : "primary.main",
-        color: text !== state ? "black" : "white",
+        backgroundColor:
+          text.toLowerCase() !== state ? "white" : "primary.main",
+        color: text.toLowerCase() !== state ? "black" : "white",
         border: "1px solid #D6D8DB",
       }}
     >
