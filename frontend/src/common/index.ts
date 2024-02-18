@@ -6,3 +6,8 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const addImage = axios.create({
+  baseURL: "https://api.cloudinary.com/v1_1/drwacb3lb/upload?upload_preset=",
+  headers: { "Content-Type": "application/json" },
+});

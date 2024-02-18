@@ -14,6 +14,7 @@ type FoodProps = {
 
 export const FoodCard = (props: FoodProps) => {
   const { name, price, salePrice = 0, picture, id } = props;
+  console.log(picture);
   const { setId, setModal, setPercentageModal } = useFModal();
 
   const [percentage, setPercentage] = useState(0);
@@ -40,6 +41,7 @@ export const FoodCard = (props: FoodProps) => {
         borderRadius={"16px"}
         overflow={"hidden"}
         position={"relative"}
+        border={"1px solid grey"}
         sx={{ aspectRatio: "1/0.6" }}
       >
         {percentage === 0 ? null : (
@@ -63,7 +65,7 @@ export const FoodCard = (props: FoodProps) => {
             {percentage}%
           </Typography>
         )}
-        <Image src={`/${picture}`} alt="" fill />
+        <Image src={picture} alt="" fill />
       </Stack>
       <Stack width={"100%"}>
         <Typography fontSize={20} fontWeight={600}>

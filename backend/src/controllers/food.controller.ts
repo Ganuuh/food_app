@@ -7,6 +7,7 @@ export const addFood: RequestHandler = async (req, res) => {
   try {
     const { name, image, ingredient, price, newPrice, category } = req.body;
 
+    console.log(name, image, ingredient, price, newPrice, category);
     await FoodModel.create({
       name,
       image,
@@ -30,13 +31,8 @@ export const getFoods: RequestHandler = async (req, res) => {
   const { filter } = req.query;
 
   try {
-    if (filter === "main course") {
-      const foods = await FoodModel.find({});
-      res.json(foods);
-    } else {
-      const foods = await FoodModel.find({ category: filter });
-      res.json(foods);
-    }
+    const foods = await FoodModel.find({ category: filter });
+    res.json(foods);
   } catch (error) {
     res.status(401).json({
       message: "Failed to  retrieve foods from db",

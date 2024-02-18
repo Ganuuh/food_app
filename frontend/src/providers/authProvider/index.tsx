@@ -92,9 +92,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [checkToken]);
 
-  useEffect(() => {
-    router.push("/home");
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   router.push("/home");
+  // }, [isLoggedIn]);
 
   return (
     <AuthContext.Provider
