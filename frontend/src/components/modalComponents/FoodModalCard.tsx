@@ -51,7 +51,7 @@ export const FoodModalCard = (props: BannerFood) => {
         position={"relative"}
         borderRadius={2}
         overflow={"hidden"}
-        sx={{ aspectRatio: "1/0.7", width: 1 }}
+        sx={{ aspectRatio: "1/0.7", minWidth: 300 }}
       >
         <Typography
           borderRadius={10}
@@ -72,7 +72,7 @@ export const FoodModalCard = (props: BannerFood) => {
         >
           {percentageModal}%
         </Typography>
-        <Image fill alt="" src={`/${image}`} />
+        <Image fill alt="" src={image} />
       </Stack>
       <Stack gap={4} width={"100%"} alignItems={"flex-start"}>
         <Stack
@@ -90,7 +90,7 @@ export const FoodModalCard = (props: BannerFood) => {
             {name}
           </Typography>
           <Typography fontSize={18} fontWeight={600} color={"primary"}>
-            {newPrice}₮
+            {price}₮
           </Typography>
         </Stack>
         <Stack gap={1.5}>

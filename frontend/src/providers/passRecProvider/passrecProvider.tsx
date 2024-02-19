@@ -27,7 +27,7 @@ type PassValueType = {
 const PassRecContext = createContext<PassValueType>({} as PassValueType);
 
 export const PassrecProvider = ({ children }: PassRecType) => {
-  const [recoveryStep, setRecoveryStep] = useState(0);
+  const [recoveryStep, setRecoveryStep] = useState(1);
   const [otp, setOtp] = useState(0);
   const [email, setEmail] = useState("");
 
@@ -41,7 +41,7 @@ export const PassrecProvider = ({ children }: PassRecType) => {
 
       setOtp(res.data.otp);
 
-      router.push("/passrec/confirm_otp");
+      setRecoveryStep(2);
     } catch (error) {
       console.log(error);
     }

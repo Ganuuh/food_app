@@ -6,9 +6,8 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import * as yup from "yup";
-
-export default function Page() {
-  const { otp } = usePass();
+export const ConfirmOtp = () => {
+  const { otp, setRecoveryStep } = usePass();
   const router = useRouter();
   const validationSchema = yup.object({
     code: yup.number().required().oneOf([otp], "Wrong code"),
@@ -18,7 +17,7 @@ export default function Page() {
     validationSchema: validationSchema,
     onSubmit: () => {
       toast.success("Confirmation successful");
-      router.push("/passrec/changepass");
+      setRecoveryStep(3);
     },
   });
   const { email } = usePass();
@@ -74,4 +73,4 @@ export default function Page() {
       </Stack>
     </>
   );
-}
+};

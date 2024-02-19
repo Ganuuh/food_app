@@ -5,7 +5,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-export default function Page() {
+export const ChangePassword = () => {
   const { changePassword, email } = usePass();
   const validationSchema = yup.object({
     password: yup.string().required("Please insert your password").min(10),
@@ -76,4 +76,4 @@ export default function Page() {
       </Stack>
     </>
   );
-}
+};
