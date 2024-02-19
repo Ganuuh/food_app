@@ -13,6 +13,7 @@ const userSchema = new Schema(
       unique: true,
     },
     address: String,
+    profilePic: String,
     password: {
       type: String,
       required: true,

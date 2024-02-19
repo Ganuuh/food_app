@@ -3,10 +3,12 @@ import { CustomInput } from "@/components/customInput/CustomInput";
 import { usePass } from "@/providers/passRecProvider/passrecProvider";
 import { Button, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import * as yup from "yup";
 
 export const ChangePassword = () => {
-  const { changePassword, email } = usePass();
+  const router = useRouter();
+  const { changePassword, email, setRecoveryStep } = usePass();
   const validationSchema = yup.object({
     password: yup.string().required("Please insert your password").min(10),
     rePassword: yup
@@ -19,6 +21,8 @@ export const ChangePassword = () => {
     validationSchema: validationSchema,
     onSubmit: async () => {
       changePassword(formik.values.password, email);
+      setRecoveryStep(1);
+      router.push("/home");
     },
   });
   return (
@@ -63,7 +67,7 @@ export const ChangePassword = () => {
             variant="contained"
             fullWidth
             onClick={() => {
-              formik.handleSubmit;
+              formik.handleSubmit();
             }}
             disabled={
               Boolean(formik.errors.password) ||

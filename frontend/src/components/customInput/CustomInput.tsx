@@ -14,14 +14,16 @@ export const CustomInput = (props: TextFieldProps) => {
   const { label, type = "text", ...rest } = props;
   const [isShown, setIsShown] = useState(false);
   return (
-    <Stack width={"100%"} gap={0.5}>
+    <Stack width={"100%"} gap={0.5} bgcolor={"transparent"}>
       <Typography>{label}</Typography>
       <TextField
         {...rest}
         fullWidth
         type={type === "password" && isShown ? "text" : type}
         sx={{ bgcolor: "#ECEDF0" }}
-        inputProps={{ style: { padding: "14 16" } }}
+        inputProps={{
+          style: { padding: "14px 16px" },
+        }}
         InputProps={{
           endAdornment: type === "password" && (
             <InputAdornment position="end">

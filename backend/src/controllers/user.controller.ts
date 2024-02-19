@@ -54,3 +54,8 @@ export const getUserName: RequestHandler = async (req, res) => {
     });
   } catch (error) {}
 };
+
+export const changeInformation: RequestHandler = async (req, res) => {
+  try {
+  } catch (error) {}
+};

@@ -49,7 +49,7 @@ export const PassrecProvider = ({ children }: PassRecType) => {
 
   const changePassword = async (password: string, email: string) => {
     try {
-      const res = await api.post("/changePass", {
+      const res = await api.post("/changePassword", {
         password: password,
         email: email,
       });
