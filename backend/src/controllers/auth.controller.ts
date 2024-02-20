@@ -19,6 +19,7 @@ export const signUp: RequestHandler = async (req, res) => {
       email,
       password,
       address,
+      profilePic: "",
     });
 
     const id = createdUser._id;

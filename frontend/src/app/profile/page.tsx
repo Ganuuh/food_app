@@ -11,6 +11,7 @@ import {
   History,
   Logout,
   PersonOutline,
+  PersonRounded,
 } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
@@ -21,6 +22,7 @@ type userType = {
   name: string;
   number: number;
   email: string;
+  profilePic: string;
 };
 export default function Page() {
   const [user, setUser] = useState<userType>();
@@ -56,6 +58,7 @@ export default function Page() {
           name={user?.name}
           number={user?.number}
           email={user?.email}
+          picture={user?.profilePic}
         />
       ) : (
         <Stack
@@ -82,7 +85,11 @@ export default function Page() {
                   borderRadius={"50%"}
                   overflow={"hidden"}
                 >
-                  <Image fill src={"/profile.jpeg"} alt="" />
+                  {!user?.profilePic ? (
+                    <Image fill src={"/noProfile.jpeg"} alt="" />
+                  ) : (
+                    <Image fill src={user.profilePic} alt="" />
+                  )}
                 </Stack>
                 <Stack
                   width={34}
@@ -96,6 +103,10 @@ export default function Page() {
                   right={0}
                   borderRadius={"50%"}
                   bgcolor={"white"}
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setEditing(true);
+                  }}
                 >
                   <Edit />
                 </Stack>

@@ -1,9 +1,10 @@
 "use client";
 import { ProfileInput } from "@/components/profileComps/ProfileCustomInput";
 import { useAuth } from "@/providers/authProvider";
-import { Email, PersonRounded, Phone } from "@mui/icons-material";
+import { Edit, Email, PersonRounded, Phone } from "@mui/icons-material";
 import { Button, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
+import Image from "next/image";
 
 import * as yup from "yup";
 
@@ -17,11 +18,12 @@ type ProfileEditProps = {
   email?: string;
   number?: number | string;
   name?: string;
+  picture?: string;
 };
 
 export const ProfileEdit = (props: ProfileEditProps) => {
   const { isLoggedIn, setModal } = useAuth();
-  const { number, name, email } = props;
+  const { number, name, email, picture } = props;
   const validationSchema = yup.object({
     email: yup.string().required().email(),
   });
@@ -45,6 +47,38 @@ export const ProfileEdit = (props: ProfileEditProps) => {
         <Typography fontSize={28} fontWeight={600}>
           Мэдээлэл өөрчлөх
         </Typography>
+        <Stack width={120} height={120} position={"relative"}>
+          <Stack
+            width={"100%"}
+            height={"100%"}
+            position={"relative"}
+            borderRadius={"50%"}
+            overflow={"hidden"}
+          >
+            {!picture ? (
+              <Image fill src={"/noProfile.jpeg"} alt="" />
+            ) : (
+              <Image fill src={picture} alt="" />
+            )}
+          </Stack>
+          <Stack
+            width={34}
+            height={34}
+            border={"1px solid #D6D8DB"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            color={"primary.main"}
+            position={"absolute"}
+            bottom={0}
+            right={0}
+            borderRadius={"50%"}
+            bgcolor={"white"}
+            sx={{ cursor: "pointer" }}
+            onClick={() => {}}
+          >
+            <Edit />
+          </Stack>
+        </Stack>
         <Stack width={"100%"} gap={3}>
           {/* one input */}
           <ProfileInput

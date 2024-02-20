@@ -68,6 +68,7 @@ export const ProfileText = (props: ProfileTextProps) => {
       {type === "white" ? null : (
         <Stack
           color={"primary.main"}
+          sx={{ cursor: "pointer" }}
           onClick={() => {
             !setEdit ? null : setEdit(true);
           }}
