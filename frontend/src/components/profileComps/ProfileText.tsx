@@ -1,5 +1,7 @@
+"use client";
 import { EditOutlined } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 
 type ProfileTextProps = {
@@ -9,12 +11,15 @@ type ProfileTextProps = {
   icon: React.ReactNode;
   f?: () => void;
   setState?: Dispatch<SetStateAction<boolean>>;
+  setEdit?: Dispatch<SetStateAction<boolean>>;
 };
 
 export const ProfileText = (props: ProfileTextProps) => {
-  const { type, value, label = "", icon, f, setState } = props;
+  const router = useRouter();
+  const { type, value, label = "", icon, f, setState, setEdit } = props;
   return (
     <Stack
+      width={"100%"}
       padding={2}
       bgcolor={type === "grey" ? "#F6F6F6" : "white"}
       borderRadius={0.5}
@@ -61,7 +66,12 @@ export const ProfileText = (props: ProfileTextProps) => {
         </Stack>
       </Stack>
       {type === "white" ? null : (
-        <Stack color={"primary.main"}>
+        <Stack
+          color={"primary.main"}
+          onClick={() => {
+            !setEdit ? null : setEdit(true);
+          }}
+        >
           <EditOutlined />
         </Stack>
       )}
