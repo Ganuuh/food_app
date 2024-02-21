@@ -50,7 +50,7 @@ export default function Page() {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [isEditing]);
   return (
     <>
       {isEditing ? (
@@ -59,6 +59,7 @@ export default function Page() {
           number={user?.number}
           email={user?.email}
           picture={user?.profilePic}
+          setEditing={setEditing}
         />
       ) : (
         <Stack

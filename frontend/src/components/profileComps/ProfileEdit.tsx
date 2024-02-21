@@ -1,10 +1,19 @@
 "use client";
+import { api } from "@/common";
 import { ProfileInput } from "@/components/profileComps/ProfileCustomInput";
 import { useAuth } from "@/providers/authProvider";
-import { Edit, Email, PersonRounded, Phone } from "@mui/icons-material";
-import { Button, Stack, Typography } from "@mui/material";
+import {
+  Edit,
+  Email,
+  PersonRounded,
+  Phone,
+  YouTube,
+} from "@mui/icons-material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Image from "next/image";
+import { Dispatch, SetStateAction } from "react";
+import { toast } from "react-toastify";
 
 import * as yup from "yup";
 
@@ -19,13 +28,16 @@ type ProfileEditProps = {
   number?: number | string;
   name?: string;
   picture?: string;
+  setEditing: Dispatch<SetStateAction<boolean>>;
 };
 
 export const ProfileEdit = (props: ProfileEditProps) => {
   const { isLoggedIn, setModal } = useAuth();
-  const { number, name, email, picture } = props;
+  const { number, name, email, picture, setEditing } = props;
   const validationSchema = yup.object({
     email: yup.string().required().email(),
+    userName: yup.string().required(),
+    number: yup.number().lessThan(99999999).moreThan(10000000),
   });
   const formik = useFormik({
     initialValues: {
@@ -34,7 +46,21 @@ export const ProfileEdit = (props: ProfileEditProps) => {
       userName: name,
     },
     validationSchema: validationSchema,
-    onSubmit: () => {},
+    onSubmit: async (values) => {
+      try {
+        const res = await api.post(
+          "/changeInfo",
+          { email: values.email, name: values.userName, number: values.number },
+          { headers: { Authorization: localStorage.getItem("token") } }
+        );
+
+        toast.success(res.data.message);
+
+        setEditing(false);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   });
   return (
     <Stack
@@ -76,6 +102,19 @@ export const ProfileEdit = (props: ProfileEditProps) => {
             sx={{ cursor: "pointer" }}
             onClick={() => {}}
           >
+            <TextField
+              type="file"
+              variant="standard"
+              sx={{
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+              }}
+              inputProps={{
+                style: { padding: "5px 10px", opacity: 0 },
+              }}
+              InputProps={{ disableUnderline: true }}
+            />
             <Edit />
           </Stack>
         </Stack>
@@ -105,7 +144,13 @@ export const ProfileEdit = (props: ProfileEditProps) => {
             onChange={formik.handleChange}
             icon={<Phone />}
           />
-          <Button variant="contained" fullWidth>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => {
+              formik.handleSubmit();
+            }}
+          >
             Хадгалах
           </Button>
         </Stack>

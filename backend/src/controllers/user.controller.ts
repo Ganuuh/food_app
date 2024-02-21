@@ -56,6 +56,26 @@ export const getUserName: RequestHandler = async (req, res) => {
 };
 
 export const changeInformation: RequestHandler = async (req, res) => {
+  const { name, number, email } = req.body;
+  const { authorization } = req.headers;
+
   try {
-  } catch (error) {}
+    if (!authorization) {
+      return res.status(401).json({ message: "No token found" });
+    }
+
+    const { id: userId } = jwt.verify(
+      authorization,
+      "secret-key"
+    ) as JwtPayload;
+
+    await UserModel.findOneAndUpdate(
+      { _id: userId },
+      { $set: { email: email, name: name, number: number } }
+    );
+
+    res.json({ message: "Information changed" });
+  } catch (error) {
+    console.log(error);
+  }
 };
