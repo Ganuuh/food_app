@@ -2,26 +2,13 @@
 import { api } from "@/common";
 import { ProfileInput } from "@/components/profileComps/ProfileCustomInput";
 import { useAuth } from "@/providers/authProvider";
-import {
-  Edit,
-  Email,
-  PersonRounded,
-  Phone,
-  YouTube,
-} from "@mui/icons-material";
+import { Edit, Email, PersonRounded, Phone } from "@mui/icons-material";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
-
 import * as yup from "yup";
-
-type userType = {
-  name: string;
-  number: number;
-  email: string;
-};
 
 type ProfileEditProps = {
   email?: string;
@@ -32,8 +19,8 @@ type ProfileEditProps = {
 };
 
 export const ProfileEdit = (props: ProfileEditProps) => {
-  const { isLoggedIn, setModal } = useAuth();
   const { number, name, email, picture, setEditing } = props;
+  const [imageUrl, setImageUrl] = useState("");
   const validationSchema = yup.object({
     email: yup.string().required().email(),
     userName: yup.string().required(),
