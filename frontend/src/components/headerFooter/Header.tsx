@@ -27,7 +27,7 @@ export const Header = () => {
   const [userProfile, setUserProfile] = useState("");
   const router = useRouter();
   const [login, setLogin] = useState(false);
-  const { isLoggedIn, checkToken } = useAuth();
+  const { isLoggedIn } = useAuth();
   const { myLink } = useFModal();
   const { setDrawOpen } = useDraw();
 
@@ -167,7 +167,7 @@ export const Header = () => {
               borderRadius={"50%"}
               overflow={"hidden"}
             >
-              {isLoggedIn ? (
+              {userProfile ? (
                 <ProfilePicFrame src={userProfile} />
               ) : (
                 <PersonOutlined />

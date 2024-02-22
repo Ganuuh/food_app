@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       setIsloggedIn(false);
     }
-  }, [checkToken]);
+  }, []);
 
   // useEffect(() => {
   //   router.push("/home");
