@@ -14,7 +14,6 @@ type FoodProps = {
 
 export const FoodCard = (props: FoodProps) => {
   const { name, price, salePrice = 0, picture, id } = props;
-  console.log(picture);
   const { setId, setModal, setPercentageModal } = useFModal();
 
   const [percentage, setPercentage] = useState(0);

@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 import * as yup from "yup";
 
 export const SendOtp = () => {
-  const { setEmail, sendOTP, recoveryStep, setRecoveryStep } = usePass();
-  const router = useRouter();
+  const { setEmail, sendOTP } = usePass();
   const validationSchema = yup.object({
     email: yup.string().required().email(),
   });

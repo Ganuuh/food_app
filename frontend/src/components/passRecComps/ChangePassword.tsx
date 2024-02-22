@@ -8,7 +8,7 @@ import * as yup from "yup";
 
 export const ChangePassword = () => {
   const router = useRouter();
-  const { changePassword, email, setRecoveryStep } = usePass();
+  const { changePassword, email, setRecoveryStep, otp } = usePass();
   const validationSchema = yup.object({
     password: yup.string().required("Please insert your password").min(10),
     rePassword: yup
@@ -20,9 +20,7 @@ export const ChangePassword = () => {
     initialValues: { password: "", rePassword: "" },
     validationSchema: validationSchema,
     onSubmit: async () => {
-      changePassword(formik.values.password, email);
-      setRecoveryStep(1);
-      router.push("/home");
+      changePassword(formik.values.password, email, otp);
     },
   });
   return (

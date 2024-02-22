@@ -12,7 +12,7 @@ export const sendOTP: RequestHandler = async (req, res) => {
       return res.json({ message: "Email not found" });
     }
 
-    const user = UserModel.findOne({ email: email });
+    const user = await UserModel.findOne({ email: email });
 
     if (!user) {
       return res.status(401).json({
@@ -41,7 +41,9 @@ export const sendOTP: RequestHandler = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    res.json({ message: "Email sent", otp: Otp });
+    await UserModel.findOneAndUpdate({ email: email }, { $set: { otp: Otp } });
+
+    res.json({ message: "Email sent" });
   } catch (error) {
     res.json({ message: error });
   }

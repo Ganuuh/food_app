@@ -1,6 +1,6 @@
-import { Edit, PersonRounded } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import { IconButton, Stack, TextField } from "@mui/material";
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { ReactNode } from "react";
 
 type ProfileInputProps = {
   name: string;

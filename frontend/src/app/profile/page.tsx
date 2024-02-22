@@ -58,7 +58,7 @@ export default function Page() {
           name={user?.name}
           number={user?.number}
           email={user?.email}
-          picture={user?.profilePic}
+          profilePic={user?.profilePic}
           setEditing={setEditing}
         />
       ) : (

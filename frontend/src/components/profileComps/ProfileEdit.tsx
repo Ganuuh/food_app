@@ -6,7 +6,7 @@ import { Edit, Email, PersonRounded, Phone } from "@mui/icons-material";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
@@ -14,13 +14,14 @@ type ProfileEditProps = {
   email?: string;
   number?: number | string;
   name?: string;
-  picture?: string;
+  profilePic?: string;
   setEditing: Dispatch<SetStateAction<boolean>>;
 };
 
 export const ProfileEdit = (props: ProfileEditProps) => {
-  const { number, name, email, picture, setEditing } = props;
-  const [imageUrl, setImageUrl] = useState("");
+  const { number, name, email, profilePic, setEditing } = props;
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const validationSchema = yup.object({
     email: yup.string().required().email(),
     userName: yup.string().required(),
@@ -35,9 +36,25 @@ export const ProfileEdit = (props: ProfileEditProps) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
+        const formData = new FormData();
+
+        formData.append("file", imageFile ?? "");
+
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/drwacb3lb/upload?upload_preset=tfdako2y",
+          { method: "POST", body: formData }
+        );
+
+        const data = await response.json();
+
         const res = await api.post(
           "/changeInfo",
-          { email: values.email, name: values.userName, number: values.number },
+          {
+            email: values.email,
+            name: values.userName,
+            number: values.number,
+            picture: data.secure_url,
+          },
           { headers: { Authorization: localStorage.getItem("token") } }
         );
 
@@ -49,6 +66,17 @@ export const ProfileEdit = (props: ProfileEditProps) => {
       }
     },
   });
+
+  // const changeInformation = async () => {
+  //   try {
+  //     const response = await fetch("", { method: "POST", body: formData });
+  //   } catch (error) {}
+  // };
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setImageFile(event.target.files[0]);
+    }
+  };
   return (
     <Stack
       width={"100%"}
@@ -68,10 +96,10 @@ export const ProfileEdit = (props: ProfileEditProps) => {
             borderRadius={"50%"}
             overflow={"hidden"}
           >
-            {!picture ? (
+            {!profilePic ? (
               <Image fill src={"/noProfile.jpeg"} alt="" />
             ) : (
-              <Image fill src={picture} alt="" />
+              <Image fill src={profilePic} alt="" />
             )}
           </Stack>
           <Stack
@@ -91,6 +119,7 @@ export const ProfileEdit = (props: ProfileEditProps) => {
           >
             <TextField
               type="file"
+              onChange={handleImageChange}
               variant="standard"
               sx={{
                 position: "absolute",

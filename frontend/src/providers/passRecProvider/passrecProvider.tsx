@@ -19,16 +19,20 @@ type PassValueType = {
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
   sendOTP: (email: string) => Promise<void>;
-  otp: number;
-  setOtp: Dispatch<SetStateAction<number>>;
-  changePassword: (password: string, email: string) => Promise<void>;
+  otp: string;
+  setOtp: Dispatch<SetStateAction<string>>;
+  changePassword: (
+    password: string,
+    email: string,
+    otp: string
+  ) => Promise<void>;
 };
 
 const PassRecContext = createContext<PassValueType>({} as PassValueType);
 
 export const PassrecProvider = ({ children }: PassRecType) => {
   const [recoveryStep, setRecoveryStep] = useState(1);
-  const [otp, setOtp] = useState(0);
+  const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
 
   const router = useRouter();
@@ -39,24 +43,30 @@ export const PassrecProvider = ({ children }: PassRecType) => {
 
       toast.success(res.data.message);
 
-      setOtp(res.data.otp);
-
       setRecoveryStep(2);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
     }
   };
 
-  const changePassword = async (password: string, email: string) => {
+  const changePassword = async (
+    password: string,
+    email: string,
+    otp: string
+  ) => {
     try {
       const res = await api.post("/changePassword", {
         password: password,
         email: email,
+        otp: otp,
       });
 
       toast.success(res.data.message);
-    } catch (error) {
-      console.log(error);
+
+      router.push("/home");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      setRecoveryStep(1);
     }
   };
   return (

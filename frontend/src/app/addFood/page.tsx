@@ -26,8 +26,6 @@ export default function Page() {
 
         formData.append("file", selectedFile);
 
-        // const response = await addImage.post("rtjj4oyg", { formData });
-
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/drwacb3lb/upload?upload_preset=rtjj4oyg",
           { method: "POST", body: formData }

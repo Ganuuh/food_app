@@ -51,13 +51,16 @@ export const getUserName: RequestHandler = async (req, res) => {
 
     res.json({
       userName: user.name,
+      userProfile: user.profilePic,
     });
   } catch (error) {}
 };
 
 export const changeInformation: RequestHandler = async (req, res) => {
-  const { name, number, email } = req.body;
+  const { name, number, email, picture } = req.body;
   const { authorization } = req.headers;
+
+  console.log(picture);
 
   try {
     if (!authorization) {
@@ -71,7 +74,9 @@ export const changeInformation: RequestHandler = async (req, res) => {
 
     await UserModel.findOneAndUpdate(
       { _id: userId },
-      { $set: { email: email, name: name, number: number } }
+      {
+        $set: { email: email, name: name, number: number, profilePic: picture },
+      }
     );
 
     res.json({ message: "Information changed" });

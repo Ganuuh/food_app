@@ -24,6 +24,7 @@ import { api } from "@/common";
 export const Header = () => {
   const [searchValue, setSearchValue] = useState("");
   const [userName, setUserName] = useState("");
+  const [userProfile, setUserProfile] = useState("");
   const router = useRouter();
   const [login, setLogin] = useState(false);
   const { isLoggedIn, checkToken } = useAuth();
@@ -37,6 +38,7 @@ export const Header = () => {
       });
 
       setUserName(res.data.userName);
+      setUserProfile(res.data.userProfile);
     } catch (error) {
       console.log(error);
     }
@@ -166,7 +168,7 @@ export const Header = () => {
               overflow={"hidden"}
             >
               {isLoggedIn ? (
-                <ProfilePicFrame src="/profile.jpeg" />
+                <ProfilePicFrame src={userProfile} />
               ) : (
                 <PersonOutlined />
               )}

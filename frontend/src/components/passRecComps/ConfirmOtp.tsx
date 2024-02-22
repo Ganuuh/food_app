@@ -3,20 +3,17 @@ import { CustomInput } from "@/components/customInput/CustomInput";
 import { usePass } from "@/providers/passRecProvider/passrecProvider";
 import { Button, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 export const ConfirmOtp = () => {
-  const { otp, setRecoveryStep } = usePass();
-  const router = useRouter();
+  const { setRecoveryStep, setOtp } = usePass();
   const validationSchema = yup.object({
-    code: yup.number().required().oneOf([otp], "Wrong code"),
+    code: yup.string().required(),
   });
   const formik = useFormik({
     initialValues: { code: "" },
     validationSchema: validationSchema,
     onSubmit: () => {
-      toast.success("Confirmation successful");
+      setOtp(formik.values.code);
       setRecoveryStep(3);
     },
   });
@@ -62,7 +59,6 @@ export const ConfirmOtp = () => {
           <Button
             variant="contained"
             fullWidth
-            disabled={Boolean(formik.errors.code)}
             onClick={() => {
               formik.handleSubmit();
             }}

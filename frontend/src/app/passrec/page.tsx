@@ -5,7 +5,7 @@ import { SendOtp } from "@/components/passRecComps/SendOtp";
 import { usePass } from "@/providers/passRecProvider/passrecProvider";
 
 export default function Page() {
-  const { recoveryStep, setRecoveryStep } = usePass();
+  const { recoveryStep } = usePass();
 
   return (
     <>
