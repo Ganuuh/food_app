@@ -4,7 +4,7 @@ import { Stack, Typography } from "@mui/material";
 import { CustomInput } from "../customInput/CustomInput";
 import { CustomSelect } from "./CustomSelect";
 import { Toggle } from "./OnSaleToggle";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AddFoodPicture } from "./AddFoodPicture";
 
 export const AddFood = () => {
