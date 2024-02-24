@@ -1,7 +1,6 @@
 "use client";
 import { api } from "@/common";
 import { ProfileInput } from "@/components/profileComps/ProfileCustomInput";
-import { useAuth } from "@/providers/authProvider";
 import { Edit, Email, PersonRounded, Phone } from "@mui/icons-material";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
@@ -66,12 +65,6 @@ export const ProfileEdit = (props: ProfileEditProps) => {
       }
     },
   });
-
-  // const changeInformation = async () => {
-  //   try {
-  //     const response = await fetch("", { method: "POST", body: formData });
-  //   } catch (error) {}
-  // };
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setImageFile(event.target.files[0]);

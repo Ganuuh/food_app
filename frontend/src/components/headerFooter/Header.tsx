@@ -26,8 +26,7 @@ export const Header = () => {
   const [userName, setUserName] = useState("");
   const [userProfile, setUserProfile] = useState("");
   const router = useRouter();
-  const [login, setLogin] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logInModal, setLogin } = useAuth();
   const { myLink } = useFModal();
   const { setDrawOpen } = useDraw();
 
@@ -61,8 +60,8 @@ export const Header = () => {
         backgroundColor: "white",
       }}
     >
-      {!isLoggedIn && login && (
-        <HeaderLoginCard setShown={setLogin} shown={login} />
+      {!isLoggedIn && logInModal && (
+        <HeaderLoginCard setShown={setLogin} shown={logInModal} />
       )}
       <Stack
         maxWidth={1440}

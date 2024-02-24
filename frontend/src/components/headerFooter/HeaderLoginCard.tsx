@@ -31,7 +31,7 @@ export const HeaderLoginCard = (props: HeaderLoginCardProps) => {
           bgcolor={"#00000080"}
           position={"absolute"}
         ></Stack>
-        <LoginCard setShown={setShown} />
+        <LoginCard />
       </Stack>
     </Collapse>
   );

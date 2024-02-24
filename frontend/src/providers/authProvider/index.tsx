@@ -31,6 +31,8 @@ type AuthContextValue = {
   isLoggedIn: boolean;
   setModal: Dispatch<SetStateAction<boolean>>;
   logOutModal: boolean;
+  logInModal: boolean;
+  setLogin: Dispatch<SetStateAction<boolean>>;
   logIn: (values: logIntype) => Promise<void>;
   logOut: () => void;
   checkToken: boolean;
@@ -41,6 +43,7 @@ const AuthContext = createContext<AuthContextValue>({} as AuthContextValue);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [logOutModal, setModal] = useState(false);
+  const [logInModal, setLogin] = useState(false);
   const [checkToken, setCheckToken] = useState(false);
   const router = useRouter();
 
@@ -68,9 +71,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       });
       const { token, name } = res.data;
       localStorage.setItem("token", token);
-      localStorage.setItem("name", name);
       setCheckToken((prev) => !prev);
       toast.success("User logged in");
+      setLogin(false);
     } catch (error: any) {
       toast.warn(error.response.data.message);
     }
@@ -90,7 +93,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       setIsloggedIn(false);
     }
-  }, []);
+  }, [checkToken]);
 
   // useEffect(() => {
   //   router.push("/home");
@@ -104,6 +107,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         logOut,
         setModal,
         logOutModal,
+        logInModal,
+        setLogin,
         checkToken,
       }}
     >

@@ -9,7 +9,7 @@ export const CustomSelect = (props: SelectProps) => {
       <Typography fontSize={14} fontWeight={500}>
         {label}
       </Typography>
-      <Select fullWidth {...rest} />
+      <Select sx={{ bgcolor: "#F4F4F4" }} fullWidth {...rest} />
     </Stack>
   );
 };

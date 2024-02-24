@@ -7,16 +7,8 @@ import { useAuth } from "@/providers/authProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-type LogInCardProps = {
-  setShown?: Dispatch<SetStateAction<boolean>>;
-};
-export const LoginCard = (props: LogInCardProps) => {
-  const { logIn } = useAuth();
-  const {
-    setShown = (p) => {
-      return p;
-    },
-  } = props;
+export const LoginCard = () => {
+  const { logIn, setLogin } = useAuth();
   const router = useRouter();
 
   const validationSchema = yup.object({
@@ -77,8 +69,8 @@ export const LoginCard = (props: LogInCardProps) => {
             cursor: "pointer",
           }}
           onClick={() => {
+            setLogin(false);
             router.push("/passrec");
-            setShown(false);
           }}
         >
           Нууц үг сэргээх
@@ -108,7 +100,7 @@ export const LoginCard = (props: LogInCardProps) => {
           variant="outlined"
           fullWidth
           onClick={() => {
-            setShown(false);
+            setLogin(false);
             router.push("/signup");
           }}
         >
