@@ -1,6 +1,6 @@
 "use client";
 import { Close } from "@mui/icons-material";
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { CustomInput } from "../customInput/CustomInput";
 import { CustomSelect } from "./CustomSelect";
 import { Toggle } from "./OnSaleToggle";
@@ -14,7 +14,7 @@ export const AddFood = () => {
   return (
     <Stack
       width={"100%"}
-      height={"fit-content"}
+      height={"100%"}
       paddingY={"40px"}
       zIndex={30}
       position={"absolute"}
@@ -73,6 +73,30 @@ export const AddFood = () => {
             <CustomInput placeholder="Placeholder" />
           </Stack>
           <AddFoodPicture link={imageLink} setLink={setImageLink} />
+        </Stack>
+        <Stack
+          width={"100%"}
+          sx={{
+            borderTop: "1px solid grey",
+            alignItems: "flex-end",
+            padding: "24px",
+          }}
+        >
+          <Stack flexDirection={"row"} gap={2} alignItems={"center"}>
+            <Typography color={"#393939"} fontSize={16} fontWeight={600}>
+              Clear
+            </Typography>
+            <Typography
+              padding={"10px 20px"}
+              color={"white"}
+              bgcolor={"#393939"}
+              fontSize={16}
+              fontWeight={600}
+              borderRadius={1}
+            >
+              Continue
+            </Typography>
+          </Stack>
         </Stack>
       </Stack>
     </Stack>

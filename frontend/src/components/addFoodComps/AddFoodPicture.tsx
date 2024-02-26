@@ -1,5 +1,5 @@
 "use client";
-import { Stack, TextField, Typography } from "@mui/material";
+import { CircularProgress, Stack, TextField, Typography } from "@mui/material";
 import Image from "next/image";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 
@@ -9,18 +9,18 @@ type AddFoodProps = {
 };
 
 export const AddFoodPicture = (props: AddFoodProps) => {
-  const [file, setFile] = useState<File | null>(null);
+  const [isloading, setLoading] = useState<boolean>(false);
   const { link, setLink } = props;
 
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
     if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
-    if (file) {
+      const image = e.target.files[0];
+
       try {
         const formData = new FormData();
 
-        formData.append("file", file);
+        formData.append("file", image);
 
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/drwacb3lb/upload?upload_preset=tfdako2y",
@@ -30,6 +30,7 @@ export const AddFoodPicture = (props: AddFoodProps) => {
         const data = await response.json();
 
         setLink(data.secure_url);
+        setLoading(false);
       } catch (error: any) {
         console.log(error.response.data.message);
       }
@@ -88,12 +89,22 @@ export const AddFoodPicture = (props: AddFoodProps) => {
           width="100%"
           height={"100%"}
           position={"relative"}
-          border={1}
-          sx={{ display: link === "" ? "none" : "flex" }}
+          justifyContent={"center"}
+          alignItems={"center"}
+          border={"1px solid grey"}
           borderRadius={"10px"}
           overflow={"hidden"}
         >
-          <Image fill src={link} alt="" />
+          {isloading ? (
+            // <CircularProgressWithProps value={isloading} />
+            <CircularProgress />
+          ) : link !== "" ? (
+            <Image fill src={link} alt="" />
+          ) : (
+            <Typography fontSize={16} fontWeight={600} textAlign={"center"}>
+              Your photo will appear here!
+            </Typography>
+          )}
         </Stack>
       </Stack>
     </Stack>

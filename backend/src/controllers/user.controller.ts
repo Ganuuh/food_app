@@ -60,8 +60,6 @@ export const changeInformation: RequestHandler = async (req, res) => {
   const { name, number, email, picture } = req.body;
   const { authorization } = req.headers;
 
-  console.log(picture);
-
   try {
     if (!authorization) {
       return res.status(401).json({ message: "No token found" });
