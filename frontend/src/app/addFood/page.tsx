@@ -1,5 +1,5 @@
 "use client";
-import { addImage, api } from "@/common";
+import { api } from "@/common";
 import { CustomInput } from "@/components/customInput/CustomInput";
 import { Button, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";

@@ -1,20 +1,44 @@
 "use client";
 import { Close } from "@mui/icons-material";
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { CustomInput } from "../customInput/CustomInput";
 import { CustomSelect } from "./CustomSelect";
 import { Toggle } from "./OnSaleToggle";
 import { useState } from "react";
 import { AddFoodPicture } from "./AddFoodPicture";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 export const AddFood = () => {
   const [isOnSale, setOnSale] = useState(false);
   const [imageLink, setImageLink] = useState("");
+  const [category, setCategory] = useState<string>("");
+
+  const categories = [
+    { value: "zail", text: "zail gsen" },
+    { value: "tsaasha", text: "bur tsasha" },
+  ];
+  const validationSchema = yup.object({
+    name: yup.string().required(),
+    ingredients: yup.string().required(),
+    price: yup.number().required(),
+    onsale: yup.number(),
+  });
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      ingredients: "",
+      price: "",
+      onsale: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: () => {},
+  });
 
   return (
     <Stack
       width={"100%"}
-      height={"100%"}
+      height={"fit-content"}
       paddingY={"40px"}
       zIndex={30}
       position={"absolute"}
@@ -59,18 +83,60 @@ export const AddFood = () => {
         </Stack>
         {/* text fields */}
         <Stack width={"100%"} gap={2}>
-          <CustomInput label="Хоолны нэр" placeholder="Tsuiwan" />
-          <CustomSelect label="Хоолны ангилал" />
-          <CustomInput label="Хоолны орц" placeholder="Placeholder" />
-          <CustomInput label="Хоолны орц" placeholder="Placeholder" />
-          <CustomInput label="Хоолны үнэ" placeholder="Placeholder" />
+          <CustomInput
+            label="Хоолны нэр"
+            placeholder="шөл"
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+          />
+          <CustomSelect
+            label="Хоолны ангилал"
+            MenuProps={{ variant: "menu" }}
+            options={categories}
+            setValue={setCategory}
+          />
+          <CustomInput
+            label="Хоолны орц"
+            placeholder="Placeholder"
+            name="ingredients"
+            value={formik.values.ingredients}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.ingredients && Boolean(formik.errors.ingredients)
+            }
+            helperText={formik.touched.ingredients && formik.errors.ingredients}
+          />
+          <CustomInput
+            label="Үнэ"
+            placeholder="10000"
+            name="price"
+            value={formik.values.price}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.price && Boolean(formik.errors.price)}
+            helperText={formik.touched.price && formik.errors.price}
+          />
           <Stack>
             <Toggle
               state={isOnSale}
               setState={setOnSale}
               label="Хямдралтай эсэх"
             />
-            <CustomInput placeholder="Placeholder" />
+            <CustomInput
+              placeholder="10000"
+              name="onsale"
+              disabled={!isOnSale}
+              value={formik.values.onsale}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.onsale && Boolean(formik.errors.onsale)}
+              helperText={formik.touched.onsale && formik.errors.onsale}
+            />
           </Stack>
           <AddFoodPicture link={imageLink} setLink={setImageLink} />
         </Stack>
