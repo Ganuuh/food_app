@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { LoadingPage } from "../loading";
 import { BannerFood } from "@/providers/FoodModalProvider";
 import { FoodCard } from "../foodCard/FoodCard";
+import { AdminFoodCard } from "./AdminFoodCard";
 
 export const AdminFoods = (props: { title: string }) => {
   const { title } = props;
@@ -70,7 +71,7 @@ export const AdminFoods = (props: { title: string }) => {
             const { name, price, newPrice, image, _id } = food;
 
             return (
-              <FoodCard
+              <AdminFoodCard
                 key={_id}
                 id={_id}
                 name={name}

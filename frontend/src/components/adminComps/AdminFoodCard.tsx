@@ -11,7 +11,7 @@ type FoodProps = {
   id: string;
 };
 
-export const FoodCard = (props: FoodProps) => {
+export const AdminFoodCard = (props: FoodProps) => {
   const { name, price, salePrice = 0, picture, id } = props;
 
   const [percentage, setPercentage] = useState(0);
@@ -21,16 +21,7 @@ export const FoodCard = (props: FoodProps) => {
     }
   }, [salePrice]);
   return (
-    <Stack
-      alignItems={"center"}
-      gap={"14px"}
-      width={"full"}
-      onClick={() => {
-        setPercentageModal(percentage);
-        setId(id);
-        setModal(true);
-      }}
-    >
+    <Stack alignItems={"center"} gap={"14px"} width={"full"} onClick={() => {}}>
       <Stack
         width={"100%"}
         alignItems={"end"}
@@ -41,6 +32,33 @@ export const FoodCard = (props: FoodProps) => {
         border={"1px solid grey"}
         sx={{ aspectRatio: "1/0.6" }}
       >
+        <Stack
+          width={"100%"}
+          height={"100%"}
+          position={"absolute"}
+          top={0}
+          left={0}
+          bgcolor={"#00000066"}
+          zIndex={10}
+          justifyContent={"center"}
+          alignItems={"center"}
+          sx={{
+            opacity: 0,
+            ":hover": { opacity: 1 },
+            transitionDuration: "0.2s",
+          }}
+        >
+          <Typography
+            fontSize={20}
+            fontWeight={600}
+            padding={"4px 32px"}
+            borderRadius={"100px"}
+            bgcolor={"white"}
+            sx={{ cursor: "pointer" }}
+          >
+            Edit
+          </Typography>
+        </Stack>
         {percentage === 0 ? null : (
           <Typography
             borderRadius={10}

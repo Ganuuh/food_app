@@ -3,11 +3,14 @@ import { api } from "@/common";
 import { Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { EachCategory } from "./EachCategory";
+import { AddCategoryModal } from "./AddCategoryModal";
 
 export const FoodCategory = (props: {
   setFilter: Dispatch<SetStateAction<string>>;
 }) => {
   const { setFilter } = props;
+  const [addCategory, setCategoryModal] = useState<boolean>(false);
+  const [categoryAdded, setCategoryAdded] = useState(false);
   const [categories, setCategories] = useState<{ _id: string; name: string }[]>(
     []
   );
@@ -25,17 +28,44 @@ export const FoodCategory = (props: {
   };
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [categoryAdded]);
   return (
-    <Stack width={320} padding={3} gap={5}>
-      <Typography fontSize={22} fontWeight={700}>
-        Food menu
-      </Typography>
-      <Stack width={"100%"} gap={3}>
-        {categories.map((category) => {
-          return <EachCategory setFilter={setFilter} name={category.name} />;
-        })}
+    <>
+      {addCategory ? (
+        <AddCategoryModal
+          setState={setCategoryModal}
+          setCategory={setCategoryAdded}
+        />
+      ) : null}
+      <Stack width={320} padding={3} gap={5}>
+        <Typography fontSize={22} fontWeight={700}>
+          Food menu
+        </Typography>
+        <Stack width={"100%"} gap={3}>
+          {categories.map((category) => {
+            return <EachCategory setFilter={setFilter} name={category.name} />;
+          })}
+          <Typography
+            width={"100%"}
+            padding={"6px"}
+            textAlign={"center"}
+            border={"1px solid grey"}
+            borderRadius={2}
+            fontWeight={550}
+            onClick={() => {
+              setCategoryModal(true);
+            }}
+            sx={{
+              cursor: "pointer",
+              color: "black",
+              transitionDuration: "0.2s",
+              ":hover": { color: "white", bgcolor: "primary.main" },
+            }}
+          >
+            + Create new category
+          </Typography>
+        </Stack>
       </Stack>
-    </Stack>
+    </>
   );
 };
