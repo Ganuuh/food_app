@@ -7,8 +7,9 @@ import { AddCategoryModal } from "./AddCategoryModal";
 
 export const FoodCategory = (props: {
   setFilter: Dispatch<SetStateAction<string>>;
+  filter: string;
 }) => {
-  const { setFilter } = props;
+  const { setFilter, filter } = props;
   const [addCategory, setCategoryModal] = useState<boolean>(false);
   const [categoryAdded, setCategoryAdded] = useState(false);
   const [categories, setCategories] = useState<{ _id: string; name: string }[]>(
@@ -42,8 +43,15 @@ export const FoodCategory = (props: {
           Food menu
         </Typography>
         <Stack width={"100%"} gap={3}>
-          {categories.map((category) => {
-            return <EachCategory setFilter={setFilter} name={category.name} />;
+          {categories.map((category, index) => {
+            return (
+              <EachCategory
+                key={index}
+                setFilter={setFilter}
+                filter={filter}
+                name={category.name}
+              />
+            );
           })}
           <Typography
             width={"100%"}

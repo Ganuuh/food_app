@@ -102,6 +102,7 @@ export const AddCategoryModal = (props: {
             onClick={() => {
               formik.resetForm();
             }}
+            sx={{ cursor: "pointer" }}
           >
             Clear
           </Typography>
@@ -115,6 +116,7 @@ export const AddCategoryModal = (props: {
             onClick={() => {
               formik.handleSubmit();
             }}
+            sx={{ cursor: "pointer" }}
           >
             Continue
           </Typography>

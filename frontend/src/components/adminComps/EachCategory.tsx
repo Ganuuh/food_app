@@ -5,20 +5,24 @@ import { Dispatch, SetStateAction } from "react";
 type EachCategoryProps = {
   name: string;
   setFilter: Dispatch<SetStateAction<string>>;
+  filter: string;
 };
 export const EachCategory = (props: EachCategoryProps) => {
-  const { name, setFilter } = props;
+  const { name, setFilter, filter } = props;
   return (
     <Stack
       width={"100%"}
       padding={"6.5px 16px"}
-      bgcolor={"primary.main"}
       flexDirection={"row"}
       alignItems={"center"}
       justifyContent={"space-between"}
       borderRadius={2}
-      color={"white"}
-      sx={{ cursor: "pointer" }}
+      border={1}
+      sx={{
+        cursor: "pointer",
+        color: filter === name ? "white" : "black",
+        bgcolor: filter === name ? "primary.main" : "white",
+      }}
       onClick={() => {
         setFilter(name);
       }}

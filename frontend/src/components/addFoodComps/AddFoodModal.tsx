@@ -4,12 +4,15 @@ import { Stack, Typography } from "@mui/material";
 import { CustomInput } from "../customInput/CustomInput";
 import { CustomSelect } from "./CustomSelect";
 import { Toggle } from "./OnSaleToggle";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { AddFoodPicture } from "./AddFoodPicture";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-export const AddFood = () => {
+type AddFoodProps = {
+  setAddFood: Dispatch<SetStateAction<boolean>>;
+};
+export const AddFood = (props: AddFoodProps) => {
   const [isOnSale, setOnSale] = useState(false);
   const [imageLink, setImageLink] = useState("");
   const [category, setCategory] = useState<string>("");
@@ -38,10 +41,10 @@ export const AddFood = () => {
   return (
     <Stack
       width={"100%"}
-      height={"fit-content"}
+      height={"100%"}
       paddingY={"40px"}
       zIndex={30}
-      position={"absolute"}
+      position={"fixed"}
       top={0}
       left={0}
       justifyContent={"center"}
@@ -56,6 +59,9 @@ export const AddFood = () => {
         top={0}
         left={0}
         bgcolor={"#00000080"}
+        onClick={() => {
+          props.setAddFood(false);
+        }}
       ></Stack>
       <Stack
         width={500}
@@ -73,7 +79,11 @@ export const AddFood = () => {
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <Close />
+          <Close
+            onClick={() => {
+              props.setAddFood(false);
+            }}
+          />
           <Typography fontSize={28} fontWeight={600} justifySelf={"center"}>
             Create food
           </Typography>

@@ -1,17 +1,17 @@
 "use client";
 import { Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { MenuFoodsProps } from "../menuComps/MenuFoods";
 import { api } from "@/common";
 import { toast } from "react-toastify";
 import { LoadingPage } from "../loading";
 import { BannerFood } from "@/providers/FoodModalProvider";
-import { FoodCard } from "../foodCard/FoodCard";
 import { AdminFoodCard } from "./AdminFoodCard";
+import { AddFood } from "../addFoodComps/AddFoodModal";
 
 export const AdminFoods = (props: { title: string }) => {
   const { title } = props;
   const [adminfoods, setAdminFood] = useState<BannerFood[] | null>(null);
+  const [addFood, setAddFood] = useState(false);
   const getAllFoods = async () => {
     try {
       const { data } = await api.get("/foods/getAll", {
@@ -34,6 +34,7 @@ export const AdminFoods = (props: { title: string }) => {
       borderRadius={"15px"}
       gap={4}
     >
+      {addFood ? <AddFood setAddFood={setAddFood} /> : null}
       {/* Header */}
       <Stack
         width={"100%"}
@@ -51,6 +52,9 @@ export const AdminFoods = (props: { title: string }) => {
           bgcolor={"primary.main"}
           color={"primary.contrastText"}
           borderRadius={"4px"}
+          onClick={() => {
+            setAddFood(true);
+          }}
         >
           Add new food
         </Typography>
