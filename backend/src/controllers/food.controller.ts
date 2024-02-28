@@ -14,7 +14,7 @@ export const addFood: RequestHandler = async (req, res) => {
       ingredient,
       price,
       newPrice,
-      category,
+      category: newPrice === price ? category : "on sale",
     });
 
     res.json({
